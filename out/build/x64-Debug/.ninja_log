@@ -1,0 +1,29 @@
+# ninja log v5
+245	14483	6986702755292883	CMakeFiles/main.dir/src/main.cpp.obj	ee5923eb7ab3fa89
+14485	16106	6986702761514043	main.exe	dfb18310e5fe7779
+55	5069	6986698884594007	CGAL_Qt5_moc_and_resources_autogen/timestamp	9bbf421d15d509fd
+5092	5297	6986698892004049	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/qrc_File.cpp	2986ff9286f9feb4
+55	5069	6986698884594007	CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.cpp	9bbf421d15d509fd
+5070	5499	6986698894051437	ui_ImageInterface.h	e9f7aeff3810eb14
+55	5069	6986698884594007	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CGAL_Qt5_moc_and_resources_autogen/timestamp	9bbf421d15d509fd
+5083	5285	6986698891884008	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/qrc_Input.cpp	2ec37ea6e28053ea
+5083	5285	6986698891884008	qrc_Input.cpp	2ec37ea6e28053ea
+55	5069	6986698884594007	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.cpp	9bbf421d15d509fd
+5520	6005	6986698899061488	CMakeFiles/CGAL_Qt5_moc_and_resources.dir/qrc_File.cpp.obj	46d5327682f9b08d
+5101	5291	6986698891934045	qrc_Triangulation_2.cpp	57625be72f95dfa3
+5101	5291	6986698891934045	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/qrc_Triangulation_2.cpp	57625be72f95dfa3
+5092	5297	6986698892004049	qrc_File.cpp	2986ff9286f9feb4
+5076	5300	6986698892074034	qrc_CGAL.cpp	3fc922de4cc9e467
+5076	5300	6986698892074034	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/qrc_CGAL.cpp	3fc922de4cc9e467
+5070	5499	6986698894051437	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/ui_ImageInterface.h	e9f7aeff3810eb14
+5513	6007	6986698899051477	CMakeFiles/CGAL_Qt5_moc_and_resources.dir/qrc_Input.cpp.obj	eec1bdbffdc98237
+5527	6010	6986698899061488	CMakeFiles/CGAL_Qt5_moc_and_resources.dir/qrc_Triangulation_2.cpp.obj	cb872378c76a85c9
+5506	6023	6986698899241487	CMakeFiles/CGAL_Qt5_moc_and_resources.dir/qrc_CGAL.cpp.obj	58386dde62f04d9a
+5500	13191	6986698970818562	CMakeFiles/CGAL_Qt5_moc_and_resources.dir/CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.cpp.obj	4bd140357266bd1d
+13198	13361	6986698971908578	CGAL_Qt5_moc_and_resources.lib	58a742782a7e287f
+54	772	6986707105331346	CGAL_Qt5_moc_and_resources_autogen/timestamp	9bbf421d15d509fd
+54	772	6986707105331346	CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.cpp	9bbf421d15d509fd
+54	772	6986707105331346	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CGAL_Qt5_moc_and_resources_autogen/timestamp	9bbf421d15d509fd
+54	772	6986707105331346	C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.cpp	9bbf421d15d509fd
+805	34549	6986707442053122	CMakeFiles/test.dir/src/test.cpp.obj	b872300d0a18487e
+34554	37579	6986707462263075	test.exe	ce9799399f205f5

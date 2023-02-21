@@ -1,0 +1,9 @@
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/CGAL_Qt5_moc_and_resources.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/main.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/ALL_CGAL_TARGETS.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/cgal_check_build_system.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/test.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/CGAL_Qt5_moc_and_resources_autogen_timestamp_deps.dir
+C:/Users/marti/OneDrive - TU Eindhoven/Documenten/Master/Team Challenge/ScoliosisTeamChallenge/out/build/x64-Debug/CMakeFiles/CGAL_Qt5_moc_and_resources_autogen.dir
