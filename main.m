@@ -3,12 +3,15 @@ close all;
 
 image=niftiread("..\data\Scoliose\4preop.nii");
 
-ribcage=get_ribcage(image, 5, 3, 1350);
-volshow(ribcage);
+ribcage=uint8(get_ribcage(image, 5, 3, 1350));
+% volshow(ribcage);
 
-[node,elem,face]=v2m(ribcage,0.5,5,100);
+niftiwrite(ribcage, "..\data\Scoliose\4preopsegmentation.nii")
 
-saveoff(node, elem, "4preop.off");
+% [node,elem,face]=v2m(ribcage,0.5,5,100, 'cgalmesh');
+% plotmesh(node, face)
+% saveoff((node,3), (face,3), "4preop.off");
+
 
 
 

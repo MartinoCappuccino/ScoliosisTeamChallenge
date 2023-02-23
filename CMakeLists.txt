@@ -12,11 +12,11 @@ foreach(cppfile ${cppfiles})
   create_single_source_cgal_program("${cppfile}")
 endforeach()
 
-#if(CGAL_Qt5_FOUND)
-#    target_link_libraries(main PUBLIC CGAL::CGAL_Basic_viewer)
-#else()
-#    message(
-#        STATUS
-#        "NOTICE: The program requires Qt and will not be compiled."
-#    )
-#endif()
+if(CGAL_Qt5_FOUND)
+    target_link_libraries(main PUBLIC CGAL::CGAL_Basic_viewer)
+else()
+    message(
+        STATUS
+        "NOTICE: The program requires Qt and will not be compiled."
+    )
+endif()
