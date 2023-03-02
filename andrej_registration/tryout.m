@@ -71,7 +71,7 @@ rib_right_moved=int16(bwskel(imbinarize(rib_right_moved)));
 
 %%put back the two at the beginning of the rib
 %%find an endpoint that is close to the center
-nhood=5;
+nhood=10;
 
 endpts_left_moved=bwmorph3(rib_left_moved,"endpoints");
 [row,col,slice]=ind2sub(size(endpts_left_moved),find(endpts_left_moved==1));
