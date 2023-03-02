@@ -1,9 +1,9 @@
-clear all
+%clear all
 close all
 
 %load ribs
-load('rib1.mat');
-load('rib2.mat');
+%load('rib1.mat');
+%load('rib2.mat');
 
 rib_left=int16(rib_left);
 rib_right=int16(rib_right(1:256,:,:));
