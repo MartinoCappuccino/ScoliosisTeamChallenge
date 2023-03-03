@@ -80,8 +80,10 @@ startpts_left_moved=[row,col,slice];
 
 if sqrt(sum((startpts_left_moved(1,:) - center) .^ 2))<nhood
     startpt_left_moved=startpts_left_moved(1,:);
-else
+elseif sqrt(sum((startpts_left_moved(2,:) - center) .^ 2))<nhood
     startpt_left_moved=startpts_left_moved(2,:);
+else
+    error('trouble finding starting point');
 end
 
 endpts_right_moved=bwmorph3(rib_right_moved,"endpoints");
@@ -90,45 +92,40 @@ startpts_right_moved=[row,col,slice];
 
 if sqrt(sum((startpts_right_moved(1,:) - center) .^ 2))<nhood
     startpt_right_moved=startpts_right_moved(1,:);
-else
+elseif  sqrt(sum((startpts_right_moved(2,:) - center) .^ 2))<nhood
     startpt_right_moved=startpts_right_moved(2,:);
+else
+    error('trouble finding starting point')
 end
-
+%put 2 at the startpoint again
 rib_right_moved(startpt_right_moved(1),startpt_right_moved(2),startpt_right_moved(3))=2;
 rib_left_moved(startpt_left_moved(1),startpt_left_moved(2),startpt_left_moved(3))=2;  
 
+%make a subsequent set of points to store the lines more efficient than in
+%a volume
 rib_right_moved_line=volume2line(rib_right_moved);
 rib_left_moved_line=volume2line(rib_left_moved);
 
-test=curve_length(rib_left_moved_line);
+
+line_registered = round(rotation_registration(rib_right_moved_line,rib_left_moved_line));
 
 
 
-
-%%reduce the z direction of the volumes for faster work
-
-height=size(minimize_volume(rib_left_moved+rib_right_moved),3);
-
-
-%rotation of one rib around z for closer starting point
-endpt_right=follow_rib(rib_right_moved);
-endpt_left=follow_rib(rib_left_moved);
-
-endpt_right_dir=center-endpt_right;
-endpt_left_dir=center-endpt_left;
-
-angle=get_angle([endpt_left_dir(1),endpt_left_dir(2),0],[endpt_right_dir(1),endpt_right_dir(2),0]);
-%rib_right_moved=imdilate(rib_right_moved,ones(3,3,3));
-
-rib_right_moved=myImrotate(rib_right_moved,-angle,z);
-
-%skeletonize rib again and find the endpoint again
+%put the startpoints together again
+trans=center-line_registered(1,:);
+for i=1:size(rib_left_moved_line,1)
+    line_registered(i,:) = line_registered(i,:)+trans;
+end
 
 
-volshow(rib_left_moved+rib_right_moved);
-% 
-% imregmoment
-% imregister
-% imregcorr
+%make a volume from the coordinates again
+vol_registered=zeros(size(rib_left));
+for i=1:size(line_registered,1)
+    vol_registered(line_registered(i,1),line_registered(i,2),line_registered(i,3))=1;
+end
+volshow(vol_registered(1:550,1:550,1:550)+double(rib_right_moved));
+
+
+
 
 
