@@ -1,5 +1,6 @@
 function [pts_1,pts_2] = get_corresp_pts(rib_line1,rib_line2, N_pts)
-% GET_CORRESP_PTS calculates the corresponding points between two rib lines
+% GET_CORRESP_PTS calculates the corresponding points between two rib 
+% centerlines.
 % param rib_line1: first rib line 
 % paran rib_line2: second rib line
 % param N_pts: amount of corresponding points between lines 
@@ -37,10 +38,11 @@ n1=1;
 n2=1;
 steps1=size(rib_line1,1);
 for i=2:steps1
-    eucledian_dist1=sqrt(sum((rib_line1(i,:)-rib_line1(i-1,:)) .^ 2));
-    length1=length1+eucledian_dist1;
+    % calculate euclidean distance between adjacent points
+    euclidean_dist1=sqrt(sum((rib_line1(i,:)-rib_line1(i-1,:)) .^ 2));
+    length1=length1+euclidean_dist1;
     if length1>n1*delta1
-        prev_length1=length1-eucledian_dist1;
+        prev_length1=length1-euclidean_dist1;
         if (n1*delta1-prev_length1)<(length1-n1*delta1)
             pts_1(n1,:)=rib_line1(i,:);
             n1=n1+1;
@@ -54,10 +56,10 @@ end
 
 steps2=size(rib_line2,1);
 for i=2:steps2
-    eucledian_dist2=sqrt(sum((rib_line2(i,:)-rib_line2(i-1,:)) .^ 2));
-    length2=length2+eucledian_dist2;
+    euclidean_dist2=sqrt(sum((rib_line2(i,:)-rib_line2(i-1,:)) .^ 2));
+    length2=length2+euclidean_dist2;
     if length2>n2*delta2
-        prev_length2=length2-eucledian_dist2;
+        prev_length2=length2-euclidean_dist2;
         if (n2*delta2-prev_length2)<(length2-n2*delta2)
             pts_2(n2,:)=rib_line2(i,:);
             n2=n2+1;

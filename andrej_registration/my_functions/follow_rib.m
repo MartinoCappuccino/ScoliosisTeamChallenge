@@ -1,7 +1,7 @@
 function endpt = follow_rib(rib_line, N_steps)
 % FOLLOW_RIB calculates the direction of a rib. The starting point of the 
 % rib has a value of 2 so it can be differenciated.
-% param rib_line: rib line
+% param rib_line: rib centerline
 % param N_steps: number of steps to travel along the rib
 % returns the point reached after the travel
 

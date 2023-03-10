@@ -1,7 +1,9 @@
 function [outputVolume] = minimize_volume(inputVolume)
 
-%%removes planes that are equal to 0 from a volume and gives the reduced
-%%volume back
+% MINIMIZE_VOLUME removes planes that are equal to 0 from a volume
+% param inputVolume: rib volume
+% returns the reduced volume
+
 inputVolume(:,all(inputVolume==0, [1 3]),:) = [];
 inputVolume(all(inputVolume==0, [2 3]),:,:) = [];
 inputVolume(:,:,all(inputVolume==0, [1 2])) = [];

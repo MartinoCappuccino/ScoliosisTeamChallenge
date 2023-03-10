@@ -5,7 +5,7 @@ function [dist, dist_change] = distances(corr_pts1,corr_pts2)
 % param corr_pts1: first ribs set of points
 % param corr_pts2: second ribs set of points
 
-% get the minimum size between both lines
+% get the minimum size between both centerlines
 steps=min(size(corr_pts1,1),size(corr_pts2,1));
 
 % array of distances between corresponding points

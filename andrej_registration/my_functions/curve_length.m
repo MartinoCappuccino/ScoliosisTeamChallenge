@@ -1,6 +1,6 @@
 function [length] = curve_length(rib_line)
-% CURVE_LENGHT calculates the curve lenth of a set of points from
-% a rib (line)
+% CURVE_LENGHT calculates the curve length of a set of points from
+% a rib (centerline)
 % param rib_line: set of points of a rib
 % returns rib's lenght
 
