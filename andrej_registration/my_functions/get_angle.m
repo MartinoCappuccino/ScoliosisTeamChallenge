@@ -1,10 +1,16 @@
-function [angle] = get_angle(vec1,vec2)
-%GET_ANGLE Summary of this function goes here
-%   Detailed explanation goes here
-normal=cross(vec1,vec2);
+function [angle] = get_angle(vector1,vector2)
+% GET_ANGLE calculates the angle between two vectors (i.e. a rib vector 
+% and an axis vector)
+
+% compute the cross product between vectors to obtain the orthogonal vector
+normal=cross(vector1,vector2);
+
+% normalize the orthogonal vector
 normed_normal=normal/norm(normal);
 
-angle=atan2(dot(cross(vec1,vec2), normed_normal),dot (vec1,vec2));
+% caluclate the angle between both vectors
+angle=atan2(dot(cross(vector1,vector2),normed_normal),dot(vector1,vector2));
+% convert to degrees
 angle =rad2deg(angle);
 end
 
