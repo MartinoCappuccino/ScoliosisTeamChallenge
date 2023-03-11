@@ -1,8 +1,8 @@
 function [output] = myImrotate(rib_volume,angle,vector)
-% MYIMROTATE rotates a rib towards a vectora with a certain angle
+% MYIMROTATE rotates a rib (in a volume) around a vector with a certain angle
 % param rib_volume: 3D volume of a rib
 % param angle: angle between rib volume and vector
-% param: vector in which the rib gets rotated to
+% param: vector around which rib is rotated
 % returns the rib volume rotated
 
 output=imrotate3(permute(rib_volume,[2,1,3]),angle,vector,"nearest",'crop');

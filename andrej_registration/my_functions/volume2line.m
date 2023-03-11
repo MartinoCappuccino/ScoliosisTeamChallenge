@@ -3,7 +3,7 @@ function line3d = volume2line(rib_line,N_steps)
 % The starting point of the line has to have a value equal 
 % to 2 and all other points have to have value of 1 
 % param rib_line: rib volume with a line 
-% param N_steps: number of steps to travel along the line. 
+% param N_steps: number of steps to travel along the line (if not set the whole line will be put in the vector) 
 % Returns a vector with the coordinates of the points of the line
 
 % check if traveling through the whole rib is required or only until a point

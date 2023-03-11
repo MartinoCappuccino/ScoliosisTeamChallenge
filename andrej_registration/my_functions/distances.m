@@ -1,9 +1,11 @@
 function [dist, dist_change] = distances(corr_pts1,corr_pts2)
 
-% DISTANCES calculates the accumulated distance between corresponding 
-% points of two ribs, stops where the first rib stops
+% DISTANCES calculates the distances between corresponding 
+% points of two ribs
 % param corr_pts1: first ribs set of points
 % param corr_pts2: second ribs set of points
+% return dist: distance between each pair of corresponding points
+% return dist_change: change in distances between corresp points (with respect to the precious pair)
 
 % get the minimum size between both centerlines
 steps=min(size(corr_pts1,1),size(corr_pts2,1));

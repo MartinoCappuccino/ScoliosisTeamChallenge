@@ -1,10 +1,10 @@
 function [line_moved] = MyRegistration(line_fixed,line_moving)
 
-%ROTATION_REGISTRATION puts one rib with its start point on the other,
+%MyRegistration puts one rib with its start point on the other,
 %makes them pointing in one direction and rotates the moving rib until the
 %distances are minimal
-%It tries to minimize the sum of all distances between corresponding points
-%between the two curves by rotating one curve
+%params: fixed and moving lines as set of points
+%return: registered line
 len=30;
 
 %rotate to point in the same direction
