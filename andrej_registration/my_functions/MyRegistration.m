@@ -1,22 +1,9 @@
 function [line_moved] = MyRegistration(line_fixed,line_moving)
 
-%MyRegistration puts one rib with its start point on the other,
-%makes them pointing in one direction and rotates the moving rib until the
-%distances are minimal
+%MyRegistration puts one line (rib) with its start point on the other, and rotates
+%the moved one until the distances between correponding points are minimal
 %params: fixed and moving lines as set of points
 %return: registered line
-len=30;
-
-%rotate to point in the same direction
-dir_fixed=line_fixed(1,:)-line_fixed(len,:);
-dir_moving=line_moving(1,:)-line_moving(len,:);
-
-angle=get_angle(dir_fixed,dir_moving);
-normal=cross(dir_fixed,dir_moving);
-
-for j=1:size(line_moving,1)                     %rotates each point of the line
-    line_moving(j,:)=rotate_3D(line_moving(j,:)','any',deg2rad(-angle),normal')';
-end
 
 %translate to match startpoints
 trans_vec=line_fixed(1,:)-line_moving(1,:);     %translates the rotated line back such that the startpoints match
@@ -24,10 +11,17 @@ for j=1:size(line_moving,1)
     line_moving(j,:)=line_moving(j,:)+trans_vec;
 end
 
-opt_angle=fminsearch(@(angle)opt_rotation(line_fixed,line_moving,angle,len),angle);
+%optimization of the rotation
+init_angle_vector=[0 0];
+opt_angle_vector=fminsearch(@(angle_vector)opt_rotation(line_fixed,line_moving,angle_vector),init_angle_vector);
 
-for j=1:size(line_moving,1)                     %rotates each point of the line
-    line_moving(j,:)=rotate_3D(line_moving(j,:)','any',deg2rad(opt_angle),dir_fixed')';
+%rotate with optimized angle
+for j=1:size(line_moving,1)                     
+    line_moving(j,:)=rotate_3D(line_moving(j,:)','x',opt_angle_vector(1))';
+end
+
+for j=1:size(line_moving,1)                     
+    line_moving(j,:)=rotate_3D(line_moving(j,:)','y',opt_angle_vector(2))';
 end
 
 trans_vec=line_fixed(1,:)-line_moving(1,:);     %translates the rotated line back such that the startpoints match
@@ -40,12 +34,17 @@ end
 
 
 
-function metric = opt_rotation(line_fixed,line_moving,angle,len)
+function metric = opt_rotation(line_fixed,line_moving,angle_vector)
+xAngle=angle_vector(1);
+yAngle=angle_vector(2);
 
-dir_fixed=line_fixed(1,:)-line_fixed(len,:);
 
 for j=1:size(line_moving,1)                     %rotates each point of the line
-    line_moving(j,:)=rotate_3D(line_moving(j,:)','any',deg2rad(angle),dir_fixed')';
+    line_moving(j,:)=rotate_3D(line_moving(j,:)','x',xAngle)';
+end
+
+for j=1:size(line_moving,1)                     %rotates each point of the line
+    line_moving(j,:)=rotate_3D(line_moving(j,:)','y',yAngle)';
 end
 
 trans_vec=line_fixed(1,:)-line_moving(1,:);     %translates the rotated line back such that the startpoints match again
