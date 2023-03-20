@@ -1,0 +1,47 @@
+clear all;
+close all;
+%% Read image
+image=niftiread("..\data\Nonscoliotic\Control1a.nii");
+image=imresize3(image, [512, 512, 437]);
+
+%% Extract ribcage
+ribcage=uint8(get_ribcage(image, 5, 3, 1350));
+pcribcage = voxel_to_pointcloud(ribcage, [255, 0, 0]);
+
+%% Extract spine and ribs
+[pcspine, pcribs, spine, ribs] = get_points(ribcage, [0, 255, 0], [0, 0, 255]);
+
+%% Extract individual ribs
+% labels = cluster_ribs(pcribs);
+
+%% PLOT volumes
+volshow(ribcage)
+volshow(ribs)
+volshow(spine)
+%% PLOT pointclouds
+figure; hold on;
+pcshow(pcribs)
+pcshow(pcspine)
+pcshow(pcribcage)
+set(gcf,'color','w');
+set(gca,'color','w');
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+legend('Spine', 'Ribs', 'Ribcage');
+    
+
+%% Extract largest volumes
+
+cc = bwconncomp(ribs);
+% Loop through each connected component and extract if size > threshold
+for i = 1:cc.NumObjects
+    if numel(cc.PixelIdxList{i}) < 50000
+        % Extract voxels from original NIfTI data using binary mask
+         ribs(cc.PixelIdxList{i}) = 0;
+        
+        % Do something with the extracted component, e.g. save to file
+    end
+end
+
+volshow(ribs)
