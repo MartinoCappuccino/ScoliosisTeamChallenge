@@ -1,0 +1,9 @@
+function image = pointcloud_to_voxel(pointcloud)
+    voxelsize=0.5;
+    for i=1:3
+        tmp=pointcloud(:,i);
+        edges=min(tmp):voxelsize:max(tmp)+voxelsize;
+        xyz(:,i)=discretize( tmp , edges);
+    end
+    image=accumarray(xyz,1)>0;
+end
