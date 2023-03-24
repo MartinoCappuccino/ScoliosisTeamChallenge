@@ -4,8 +4,6 @@ close all;
 %% Read image
 image=niftiread('../data/Scoliose/4preop.nii');
 image=imresize3(image, [512, 512, 437]);
-
-%% Extract ribcage
 [pcribcage, ribcage]=get_ribcage(image, 5, 3, 1350);
 clear image;
 
@@ -16,9 +14,7 @@ clear image;
 colors = get_colors(40).*255;
 [pcindividual_ribs, individual_ribs]=seperate_ribs(ribs, colors);
 
-%% Registration of ribs
-
-%% Calculation of deformity
+%% Registration of ribs and calculation of deformity
 
 %% PLOT
 volshow(ribcage)
