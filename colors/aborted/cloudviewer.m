@@ -6,7 +6,7 @@ function cloud=rib_to_cloud(distance,ribs,N_pts)
 
 maximum=max(distance);
 
-deformation_percentage=distance./maximum;
+deformation_percentage=distance./(10*maximum);
 
 cloud=(ribs);
 
@@ -22,8 +22,8 @@ length_segments=size(ribs.Location,1)/N_pts;
         
         %[~,d1,first] = intersect(points1(i,:),ribs,'rows');
         %[~,dn,next] = intersect(points1(i+1,:),ribs,'rows');
-        first=round((i-1)*length_segments+1);
-        next=round(i*length_segments);
+        first=round((i-1)*length_segments+round(length_segments/2));
+        next=round(i*length_segments+round(length_segments/2));
 
         if deformation_percentage(i)<=0.5
         cloud.Color(first:next,1)=round(deformation_percentage(i)*2*255);
