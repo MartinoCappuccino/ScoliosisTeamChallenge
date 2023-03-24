@@ -1,0 +1,55 @@
+function [pcindividual_ribs, individual_ribs] = seperate_ribs(ribs, colors)    
+    % voxel data using the bwskel function
+    skel = bwskel(logical(ribs), 'MinBranchLength', 40);
+    
+%     % Find connected components in the skeleton
+%     conn_comp = bwconncomp(skel);
+%     
+%     % Initialize variables to hold the lines and corresponding voxels
+%     individual_ribs = cell(1,conn_comp.NumObjects);
+%     pcindividual_ribs = cell(1,conn_comp.NumObjects);
+%     
+%     % Loop through each connected component and extract the line and corresponding voxels
+%     for i = 1:conn_comp.NumObjects
+%         % Extract the line from the skeleton
+%         individual_rib = false(size(skel));
+%         individual_rib(conn_comp.PixelIdxList{i}) = true;
+%         individual_ribs{i} = individual_rib;
+%     
+%         % Extract the corresponding voxels
+%         pcindividual_rib = voxel_to_pointcloud(individual_rib, colors(i,:,:));
+%         pcindividual_ribs{i} = pcindividual_rib;
+%     end
+
+    [x, y, z] = ind2sub(size(skel), find(skel)); 
+    pcskel = pointCloud([x, y, z]);  
+    N = pcskel.Count;  
+    visited = false(N, 1);
+    lines = {};  
+    
+    for i = 1:N
+        if visited(i)
+            continue
+        end
+        line = [pcskel(i, :)]; 
+    
+        visited(i) = true;
+        prev_point = pcskel(i,:);
+        for j = i:N
+            if visited(j)  % skip points that have already been visited
+                continue
+            end
+            [closest_points, dists] = findNearestNeighbors(pcskel, pcskel(i,:), 5);
+
+            if abs(closest_points(3) - prev_point(3)) <= 2  % check if the z difference is below the threshold
+                line = [line; curr_point];  % add the current point to the current line
+                visited(j) = true;  % mark the current point as visited
+                prev_point = curr_point;  % update the previous point
+            else  % if the z difference is above the threshold, start a new line
+                break
+            end
+        end
+        lines = [lines, {line}];  % add the current line to the list of lines
+    end
+
+end

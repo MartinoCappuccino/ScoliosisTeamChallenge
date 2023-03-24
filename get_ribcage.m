@@ -1,4 +1,4 @@
-function ribcage=get_ribcage(input_volume, closing_kernel, opening_kernel, threshold)
+function [pcribcage, ribcage]=get_ribcage(input_volume, closing_kernel, opening_kernel, threshold)
     %needed data operation
     input_volume=squeeze(input_volume);
     
@@ -26,4 +26,6 @@ function ribcage=get_ribcage(input_volume, closing_kernel, opening_kernel, thres
     [biggest,idx] = max(numPixels);
 
     ribcage(CC.PixelIdxList{idx}) = 1;
+
+    pcribcage = voxel_to_pointcloud(ribcage, [255, 0, 0]);
 end
