@@ -1,4 +1,4 @@
-function [pcspine, spine, pcribs, ribs, mask] = seperate_ribcage(ribcage, colorspine, colorribs)
+function [pcspine, spine, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, colorribs)
     xs = [];
     ys = [];
     zs = [];
@@ -49,8 +49,10 @@ function [pcspine, spine, pcribs, ribs, mask] = seperate_ribcage(ribcage, colors
         mask = mask + sphere_mask > 0;
     end
     spine = double(ribcage + mask > 1);
-    pcspine = voxel_to_pointcloud(spine, colorspine);
+    pcspine = voxel_to_pointcloud(spine);
+    pcspine = color_pointcloud(pcspine, colorspine);
 
     ribs = ribcage - spine;
-    pcribs = voxel_to_pointcloud(ribs, colorribs);
+    pcribs = voxel_to_pointcloud(ribs);
+    pcribs = color_pointcloud(pcribs, colorribs);
 end

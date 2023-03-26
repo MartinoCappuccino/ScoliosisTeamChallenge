@@ -1,0 +1,74 @@
+clear all;
+close all;
+
+%% Read image
+[pcribcage, ribcage]=get_ribcage('../data/Scoliose/1preop.nii', 5, 3, 1350);
+
+%% Extract spine and ribs
+[pcspine, spine, pcribs, ribs, mask]=seperate_ribcage(ribcage, [0, 255, 0], [0, 0, 255]);
+
+%% Extract individual ribs
+[pcindividual_ribs, individual_ribs]=seperate_ribs(ribs);
+
+%% Registration of ribs and calculation of deformity
+
+%% PLOT
+volshow(ribcage)
+volshow(ribs)
+volshow(spine)
+%% PLOT pointclouds
+figure; hold on;
+%pcshow(pcribs)
+pcshow(pcspine)
+%pcshow(pcribcage)
+for i = 1:length(pcindividual_ribs)
+    pcshow(pcindividual_ribs{i})
+end
+set(gcf,'color','w');
+set(gca,'color','w');
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+legend('Spine', 'Ribs', 'Ribcage');
+
+%% SHOW BRANCHPOINTS
+branchpoints = bwmorph3(individual_ribs{7}, 'branchpoints');
+disconnected_rib = individual_ribs{7} - branchpoints;
+
+conn_comp = bwconncomp(disconnected_rib);
+individual_lines = cell(1,conn_comp.NumObjects);
+pcindividual_lines = cell(1,conn_comp.NumObjects);
+colors = get_colors(conn_comp.NumObjects).*255;
+
+for i = 1:conn_comp.NumObjects
+    % Extract the line from the skeleton
+    individual_line = false(size(disconnected_rib));
+    individual_line(conn_comp.PixelIdxList{i}) = true;
+    startendpoints = bwmorph3(individual_line, 'endpoints');
+    [x,y,z] = ind2sub(size(startendpoints), find(startendpoints));
+    disp(length(z))
+    startendpoints = imdilate(startendpoints, ones(5,5,5));
+    volshow(individual_line+ startendpoints)
+    if z>
+    if (z(1) - z(2) / sum(individual_line(:))) < 1
+        individual_lines{i} = individual_line;
+        % Extract the corresponding voxels
+        pcindividual_line = voxel_to_pointcloud(individual_line, colors(i,:,:));
+        pcindividual_lines{i} = pcindividual_line;
+    end
+end
+
+figure; hold on;
+%pcshow(pcribs)
+pcshow(pcspine)
+%pcshow(pcribcage)
+for i = 1:length(pcindividual_lines)
+    pcshow(pcindividual_lines{i})
+end
+set(gcf,'color','w');
+set(gca,'color','w');
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+legend('Spine', 'Ribs', 'Ribcage');
+
