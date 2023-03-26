@@ -1,6 +1,6 @@
 function colored_rib=color_rib(cloud_rib,cloud_colored_center)
 K=20;
-cloud_rib.Color=ones(size(cloud_rib.Location)).*255;        
+%cloud_rib.Color=ones(size(cloud_rib.Location)).*255;        
 
 for i=1:size(cloud_colored_center.Location,1)
     [indices,dists]=findNeighborsInRadius(cloud_rib,cloud_colored_center.Location(i,:),K);

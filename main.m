@@ -2,7 +2,7 @@ clear all;
 close all;
 
 %% Read image
-image=niftiread('../data/Scoliose/4preop.nii');
+image=niftiread('D:\coding_UU\TeamChallange\Scoliose\1preop.nii');
 image=imresize3(image, [512, 512, 437]);
 [pcribcage, ribcage]=get_ribcage(image, 5, 3, 1350);
 clear image;
@@ -15,6 +15,14 @@ colors = get_colors(40).*255;
 [pcindividual_ribs, individual_ribs]=seperate_ribs(ribs, colors);
 
 %% Registration of ribs and calculation of deformity
+rib1=individual_ribs{12};
+rib2=individual_ribs{11};
+ribcage=bwmorph3(ribcage,'remove');
+
+pcribcage = voxel_to_pointcloud(ribcage, [255, 255, 255]);
+pcribcage=color_deformity(rib1,rib2,pcribcage);
+figure;
+pcshow(pcribcage);
 
 %% PLOT
 volshow(ribcage)

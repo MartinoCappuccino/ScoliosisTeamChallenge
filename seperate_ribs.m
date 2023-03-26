@@ -1,6 +1,6 @@
 function [pcindividual_ribs, individual_ribs] = seperate_ribs(ribs, colors)    
     % voxel data using the bwskel function
-    ribs = imresize3(ribs, [512, 512, 512]);
+    ribs = imresize3(ribs, [512, 512, 437]);
     skel = bwskel(logical(ribs), 'MinBranchLength', 40);
     
     % Find connected components in the skeleton
