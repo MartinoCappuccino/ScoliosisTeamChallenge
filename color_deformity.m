@@ -2,7 +2,7 @@ function [colored_pcribcage] = color_deformity(rib1_vol_line,rib2_vol_line,pcrib
 pc1=order_pc(rib1_vol_line);
 pc2=order_pc(rib2_vol_line);
 %registration 
-registered=MyRegistration(pc1,pc2);
+registered=registrate_ribs(pc1,pc2);
 %calulating the differences
 [corr_pts_1,corr_pts_2] = get_corresp_pts(pc1,registered, 20);
 [distance, derivative] = distances(corr_pts_1,corr_pts_2);
@@ -23,7 +23,7 @@ idx = find(bwmorph3(vol,'endpoints'));
 vol=int8(vol);
 vol(row(1),col(1),pag(1))=2;
 vol(row(2),col(2),pag(2))=2;
-ordered_pc=volume2line(vol);
+ordered_pc=order_points(vol);
 %check thet the start poitn is the top point
 if ordered_pc(1,3)<ordered_pc(end,3)
 ordered_pc=flip(ordered_pc,1);

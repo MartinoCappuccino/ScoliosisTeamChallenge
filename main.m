@@ -23,7 +23,8 @@ rib1=individual_ribs{12};
 rib2=individual_ribs{11};
 ribcage=bwmorph3(ribcage,'remove');
 
-pcribcage = voxel_to_pointcloud(ribcage, [255, 255, 255]);
+pcribcage = voxel_to_pointcloud(ribcage);
+pcribcage.Color=ones(size(pcribcage.Location)).*255;
 pcribcage = color_deformity(rib1,rib2,pcribcage);
 figure;
 pcshow(pcribcage);
