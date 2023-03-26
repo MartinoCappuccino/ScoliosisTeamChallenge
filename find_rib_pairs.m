@@ -20,21 +20,25 @@ function [pcrib_pairs, rib_pairs] = find_rib_pairs(pcindividual_ribs, individual
         end
     end
     disp(split)
-    split=sortrows(split, 3); %% NEEDS FIXING
+    split=sortrows(split, 3); 
     
     done = [];
     for i = 1:length(split)
+        next=0;
         if ~any(ismember(done, i))
             side = split{i, 6};
             done = [done i];
             for j = 1:length(split)
-                if ~any(ismember(done, j))
-                    if ~strcmp(side, split{j,6})
-                        done = [done j];
-                        rib_pairs{end+1, 1} = split{i, 4};
-                        rib_pairs{end, 2} = split{j, 4};
-                        pcrib_pairs{end+1, 1} = split{i, 5};
-                        pcrib_pairs{end, 2} = split{j, 5};
+                if~next
+                    if ~any(ismember(done, j))
+                        if ~strcmp(side, split{j,6})
+                            done = [done j];
+                            rib_pairs{end+1, 1} = split{i, 4};
+                            rib_pairs{end, 2} = split{j, 4};
+                            pcrib_pairs{end+1, 1} = split{i, 5};
+                            pcrib_pairs{end, 2} = split{j, 5};
+                            next=1;
+                        end
                     end
                 end
             end
