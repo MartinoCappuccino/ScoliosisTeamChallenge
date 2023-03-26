@@ -1,4 +1,4 @@
-function [pcspine, spine, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, colorribs)
+function [pcspine, spine, pcspinecenterline, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, colorribs)
     xs = [];
     ys = [];
     zs = [];
@@ -28,12 +28,11 @@ function [pcspine, spine, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, 
     x = polyval(px,ss);
     y = polyval(py,ss);
     z = polyval(pz,ss);
-    pcspinecenterline = pointCloud([x(:),y(:),z(:)]);
-    pointscolor=uint8(zeros(pcspinecenterline.Count,3));
-    pointscolor(:,1)=colorspine(1);
-    pointscolor(:,2)=colorspine(2);
-    pointscolor(:,3)=colorspine(3);
-    pcspinecenterline.Color=pointscolor;
+    xpc = polyval(py, ss);
+    ypc = polyval(px, ss);
+    zpc = polyval(pz, ss);
+    pcspinecenterline = pointCloud([xpc(:),ypc(:),zpc(:)]);
+    pcspinecenterline = color_pointcloud(pcspinecenterline, colorspine);
     
     radiusx = 65;
     radiusy = [60,45];

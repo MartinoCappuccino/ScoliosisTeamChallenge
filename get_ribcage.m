@@ -1,4 +1,4 @@
-function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_kernel, threshold)
+function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_kernel, threshold, colorribcage)
     image=niftiread(file_name);
 
     image=imresize3(image, [512, 512, 437]);
@@ -35,5 +35,6 @@ function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_ker
 
     ribcage = imdilate(ribcage, strel('sphere', 2));
 
-    pcribcage = voxel_to_pointcloud(ribcage, [255, 0, 0]);
+    pcribcage = voxel_to_pointcloud(ribcage);
+    pcribcage = color_pointcloud(pcribcage, colorribcage);
 end

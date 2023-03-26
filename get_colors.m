@@ -116,6 +116,7 @@ function colors = get_colors(n_colors,bg,func)
     colors(i,:) = rgb(index,:);  % save for output
     lastlab = lab(index,:);  % prepare for next iteration
   end
+  colors = colors.*255;
 end
 
 function c = parsecolor(s)
