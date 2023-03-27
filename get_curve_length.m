@@ -15,6 +15,5 @@ function [length] = get_curve_length(rib_line)
         % sum total lenght
         length=length+euclidean_dist;
     end
-
 end
 

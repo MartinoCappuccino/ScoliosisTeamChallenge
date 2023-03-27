@@ -19,8 +19,7 @@ function [pcrib_pairs, rib_pairs] = find_rib_pairs(pcindividual_ribs, individual
             split{end, 6} = 'right';
         end
     end
-    disp(split)
-    split=sortrows(split, 3); 
+    split=sortrows(split, 3);
     
     done = [];
     for i = 1:length(split)

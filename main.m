@@ -10,10 +10,10 @@ colorribs = [0, 0, 255];
 [pcribcage, ribcage]=get_ribcage('../data/Scoliose/1preop.nii', 5, 3, 1350, colorribcage);
 
 %% Extract spine and ribs
-[pcspine, spine, pcspinecenterline, pcribs, ribs]=seperate_ribcage(ribcage, colorspine, colorribs);
+[pcspinecenterline, spinecenterline, pcspine, spine, pcribs, ribs]=seperate_ribcage(ribcage, colorspine, colorribs);
 
 %% Extract individual ribs
-[pcindividual_ribs, individual_ribs]=seperate_ribs_2(ribs);
+[pcindividual_ribs, individual_ribs]=seperate_ribs(ribs, pcspinecenterline);
 
 %% Find corresponding ribs
 [pcrib_pairs, rib_pairs] = find_rib_pairs(pcindividual_ribs, individual_ribs, pcspinecenterline);
@@ -33,7 +33,7 @@ pcshow(pcribcage);
 figure; hold on;
 %pcshow(pcribs)
 pcshow(pcspinecenterline)
-pcshow(pcribs)
+%pcshow(pcribs)
 %pcshow(pcribcage)
 for i = 1:length(pcrib_pairs)
     pcshow(pcrib_pairs{i, 1})

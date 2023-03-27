@@ -1,5 +1,4 @@
-function [dist, dist_change] = get_distances(corr_pts1,corr_pts2)
-    
+function [dist, dist_change] = get_distances(corr_pts1,corr_pts2) 
     % DISTANCES calculates the distances between corresponding 
     % points of two ribs
     % param corr_pts1: first ribs set of points
@@ -25,5 +24,4 @@ function [dist, dist_change] = get_distances(corr_pts1,corr_pts2)
         % difference from adjacent corresponding point distances
         dist_change(i)=dist(i)-dist(i-1);
     end
-
 end
