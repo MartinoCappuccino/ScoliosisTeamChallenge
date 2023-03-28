@@ -4,7 +4,9 @@ function [pcrib_pairs, rib_pairs] = find_rib_pairs(pcindividual_ribs, individual
     
     split = {};
     for i = 1:length(individual_ribs)
-        index = knnsearch(pcspinecenterline.Location, pcindividual_ribs{i}.Location, 'k', 1);
+        [index,dist] = dsearchn(pcindividual_ribs{i}.Location,pcspinecenterline.Location);
+        [~,ind]=min(dist);      %find point with minimal distance
+        index=index(ind);
         coords = pcindividual_ribs{i}.Location(index(1), :);
         index = findNearestNeighbors(pcspinecenterline, coords, 1);
         closestpointspine = pcspinecenterline.Location(index, :);
