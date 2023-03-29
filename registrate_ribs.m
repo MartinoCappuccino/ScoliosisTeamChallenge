@@ -16,11 +16,11 @@ function [line_moved] = registrate_ribs(line_fixed,line_moving)
     
     %rotate with optimized angle
     for j=1:size(line_moving,1)                     
-        line_moving(j,:)=rotate_ribs(line_moving(j,:)','x',get_opt_angle_vector(1))';
+        line_moving(j,:)=rotate_ribs(line_moving(j,:)','x',opt_angle_vector(1))';
     end
     
     for j=1:size(line_moving,1)                     
-        line_moving(j,:)=rotate_ribs(line_moving(j,:)','y',get_opt_angle_vector(2))';
+        line_moving(j,:)=rotate_ribs(line_moving(j,:)','y',opt_angle_vector(2))';
     end
     
     trans_vec=line_fixed(1,:)-line_moving(1,:);     %translates the rotated line back such that the startpoints match

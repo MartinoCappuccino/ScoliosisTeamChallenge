@@ -19,15 +19,9 @@ colorribs = [0, 0, 255];
 [pcrib_pairs, rib_pairs] = find_rib_pairs(pcindividual_ribs, individual_ribs, pcspinecenterline);
 
 %% Registration of ribs and calculation of deformity
-rib1=individual_ribs{12};
-rib2=individual_ribs{11};
-ribcage=bwmorph3(ribcage,'remove');
-
-pcribcage = voxel_to_pointcloud(ribcage);
-pcribcage.Color=ones(size(pcribcage.Location)).*255;
-pcribcage = color_deformity(rib1,rib2,pcribcage);
+colored_pcribcage = color_deformity(pcrib_pairs,ribcage);
 figure;
-pcshow(pcribcage);
+pcshow(colored_pcribcage);
 
 %% PLOT pointclouds
 figure; hold on;
