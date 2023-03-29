@@ -66,7 +66,7 @@ function [pcindividual_ribs, individual_ribs] = seperate_ribs(ribs, pcspinecente
 %         pcindividual_rib = pointCloud([x(:),y(:),z(:)]);
         pcindividual_ribs{i} = color_pointcloud(pcindividual_ribs{i}, colors(i,:, :));
         individual_rib = zeros(size(skel));
-        for j=1:length(pcindividual_rib.Location)
+        for j=1:length(pcindividual_rib{i}.Location)
             individual_rib(pcindividual_rib.Location(j,2), pcindividual_rib.Location(j,1), pcindividual_rib.Location(j,3)) = 1;
         end
         individual_ribs{i} = individual_rib;

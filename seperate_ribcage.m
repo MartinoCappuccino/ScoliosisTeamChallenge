@@ -1,19 +1,27 @@
-function [pcspinecenterline, spinecenterline, pcspine, spine, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, colorribs)
+function [pcspinecenterline, pcspine, spine, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, colorribs)
     xs = [];
     ys = [];
     zs = [];
+    
     for z = 1:size(ribcage, 3)
-       slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,z))), strel('disk', 5)), 'holes');
+       slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,z))), strel('disk', 5)), 'holes'); 
+       
+       targetSize=[70 70 300 300];
+       
+       slice= imcrop(slice,targetSize);
+       %imshow(slice,[])
        CC=bwconncomp(slice);
        ROI=zeros(size(slice));
        numPixels = cellfun(@numel,CC.PixelIdxList);
        [biggest,idx] = max(numPixels);
-       
+       %Cropping causes a shift in coordinates so correct for this 
+       shiftx=(size(ribcage,1)-size(slice,1))/2; 
+       shifty=(size(ribcage,1)-size(slice,2))/2; 
        ROI(CC.PixelIdxList{idx}) = 1;
-
+       
        stat = regionprops(logical(ROI),'centroid');
-       xs = [xs stat(1).Centroid(2)];
-       ys = [ys stat(1).Centroid(1)];
+       xs = [xs stat(1).Centroid(2)+shiftx];
+       ys = [ys stat(1).Centroid(1)+shifty];
        zs = [zs z];
     end
     
@@ -21,9 +29,9 @@ function [pcspinecenterline, spinecenterline, pcspine, spine, pcribs, ribs] = se
     for i = 2:length(xs)
       s(i) = s(i-1) + sqrt((xs(i)-xs(i-1))^2+(ys(i)-ys(i-1))^2+(zs(i)-zs(i-1))^2);
     end
-    py = polyfit(s,xs,8);
-    px = polyfit(s,ys,8);
-    pz = polyfit(s,zs,8);
+    py = polyfit(s,xs,5);
+    px = polyfit(s,ys,5);
+    pz = polyfit(s,zs,5);
     ss = linspace(0,s(end),50);
     x = polyval(px,ss);
     y = polyval(py,ss);
@@ -31,16 +39,12 @@ function [pcspinecenterline, spinecenterline, pcspine, spine, pcribs, ribs] = se
     xpc = polyval(py, ss);
     ypc = polyval(px, ss);
     zpc = polyval(pz, ss);
-    pcspinecenterline = color_pointcloud(pointCloud([xpc(:),ypc(:),zpc(:)]), colorspine);
-    spinecenterline = zeros(size(ribcage));
-    indices = ceil(pcspinecenterline.Location);
-    for j=1:size(indices,1)
-        spinecenterline(indices(j,2), indices(j,1), indices(j,3)) = 1;
-    end
-
+    pcspinecenterline = pointCloud([xpc(:),ypc(:),zpc(:)]);
+    pcspinecenterline = color_pointcloud(pcspinecenterline, colorspine);
+    
     radiusx = 65;
-    radiusy = [60,45];
-    radiusz = [60,45];
+    radiusy = [60,50];
+    radiusz = [60,40];
     [X, Y, Z] = meshgrid(1:size(ribcage,1), 1:size(ribcage,2), 1:size(ribcage,3));
     mask=zeros(size(ribcage));
     for i=1:length(x)
@@ -51,8 +55,10 @@ function [pcspinecenterline, spinecenterline, pcspine, spine, pcribs, ribs] = se
         end
         mask = mask + sphere_mask > 0;
     end
+    
     spine = double(ribcage + mask > 1);
     pcspine = voxel_to_pointcloud(spine);
+    
     pcspine = color_pointcloud(pcspine, colorspine);
 
     ribs = ribcage - spine;

@@ -80,8 +80,8 @@ function [pcindividual_ribs] = seperate_ribs(ribs)
         end
     end
 
-%     colors = get_colors(length(pcindividual_ribs));
-%     for i=1:length(pcindividual_ribs)
+    colors = get_colors(length(pcindividual_ribs));
+    for i=1:length(pcindividual_ribs)
 %         index = knnsearch(pcspinecenterline.Location, pcindividual_ribs{i}.Location, 'k', 1);
 %         closestpointspine = pcspinecenterline.Location(index(1), :);
 %         pcindividual_ribs{i} = pcmerge(pointCloud(closestpointspine), pcindividual_ribs{i}, 1);
@@ -100,7 +100,7 @@ function [pcindividual_ribs] = seperate_ribs(ribs)
 %         y = polyval(py,ss);
 %         z = polyval(pz,ss);
 %         pcindividual_rib = pointCloud([x(:),y(:),z(:)]);
-%         pcindividual_ribs{i} = color_pointcloud(pcindividual_ribs{i}, colors(i,:, :));
+        pcindividual_ribs{i} = color_pointcloud(pcindividual_ribs{i}, colors(i,:, :));
     end
 
 end
