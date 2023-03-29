@@ -1,4 +1,4 @@
-function [pcspinecenterline, pcspine, spine, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, colorribs)
+function [pcspinecenterline, pcspine, pcribs, ribs] = seperate_ribcage(ribcage, colorspine, colorribs)
     xs = [];
     ys = [];
     zs = [];
@@ -6,22 +6,24 @@ function [pcspinecenterline, pcspine, spine, pcribs, ribs] = seperate_ribcage(ri
     for z = 1:size(ribcage, 3)
        slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,z))), strel('disk', 5)), 'holes'); 
        
-       targetSize=[70 70 300 300];
-       
-       slice= imcrop(slice,targetSize);
-       %imshow(slice,[])
+%        targetSize=[70 50 300 300];
+%        
+%        slice= imcrop(slice,targetSize);
+%        imshow(slice,[])
        CC=bwconncomp(slice);
        ROI=zeros(size(slice));
        numPixels = cellfun(@numel,CC.PixelIdxList);
        [biggest,idx] = max(numPixels);
        %Cropping causes a shift in coordinates so correct for this 
-       shiftx=(size(ribcage,1)-size(slice,1))/2; 
-       shifty=(size(ribcage,1)-size(slice,2))/2; 
+%        shiftx=(size(ribcage,1)-size(slice,1))/2; 
+%        shifty=(size(ribcage,1)-size(slice,2))/2; 
        ROI(CC.PixelIdxList{idx}) = 1;
        
        stat = regionprops(logical(ROI),'centroid');
-       xs = [xs stat(1).Centroid(2)+shiftx];
-       ys = [ys stat(1).Centroid(1)+shifty];
+       %xs = [xs stat(1).Centroid(2)+shiftx];
+       %ys = [ys stat(1).Centroid(1)+shifty];
+       xs = [xs stat(1).Centroid(2)];
+       ys = [ys stat(1).Centroid(1)];
        zs = [zs z];
     end
     
@@ -57,11 +59,8 @@ function [pcspinecenterline, pcspine, spine, pcribs, ribs] = seperate_ribcage(ri
     end
     
     spine = double(ribcage + mask > 1);
-    pcspine = voxel_to_pointcloud(spine);
-    
-    pcspine = color_pointcloud(pcspine, colorspine);
+    pcspine = color_pointcloud(voxel_to_pointcloud(spine), colorspine);
 
     ribs = ribcage - spine;
-    pcribs = voxel_to_pointcloud(ribs);
-    pcribs = color_pointcloud(pcribs, colorribs);
+    pcribs = color_pointcloud(voxel_to_pointcloud(ribs), colorribs);
 end

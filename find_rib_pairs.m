@@ -1,9 +1,8 @@
-function [pcrib_pairs, rib_pairs] = find_rib_pairs(pcindividual_ribs, individual_ribs, pcspinecenterline)
+function [pcrib_pairs] = find_rib_pairs(pcindividual_ribs, pcspinecenterline)
     pcrib_pairs = {};
-    rib_pairs = {};
     
     split = {};
-    for i = 1:length(individual_ribs)
+    for i = 1:length(pcindividual_ribs)
         [index,dist] = dsearchn(pcindividual_ribs{i}.Location,pcspinecenterline.Location);
         [~,ind]=min(dist);      %find point with minimal distance
         index=index(ind);
@@ -13,31 +12,28 @@ function [pcrib_pairs, rib_pairs] = find_rib_pairs(pcindividual_ribs, individual
         split{end+1, 1}=coords(1);
         split{end, 2}=coords(2);
         split{end, 3}=coords(3);
-        split{end, 4}=individual_ribs{i};
-        split{end, 5}=pcindividual_ribs{i};
+        split{end, 4}=pcindividual_ribs{i};
         if coords(1) < closestpointspine(1)
-            split{end, 6} = 'left';
+            split{end, 5} = 'left';
         else
-            split{end, 6} = 'right';
+            split{end, 5} = 'right';
         end
     end
-    split=sortrows(split, 3);
+    split=sortrows(split, 3, 'descend');
     
     done = [];
     for i = 1:length(split)
         next=0;
         if ~any(ismember(done, i))
-            side = split{i, 6};
+            side = split{i, 5};
             done = [done i];
             for j = 1:length(split)
                 if~next
                     if ~any(ismember(done, j))
-                        if ~strcmp(side, split{j,6})
+                        if ~strcmp(side, split{j,5})
                             done = [done j];
-                            rib_pairs{end+1, 1} = split{i, 4};
-                            rib_pairs{end, 2} = split{j, 4};
-                            pcrib_pairs{end+1, 1} = split{i, 5};
-                            pcrib_pairs{end, 2} = split{j, 5};
+                            pcrib_pairs{end+1, 1} = split{i, 4};
+                            pcrib_pairs{end, 2} = split{j, 4};
                             next=1;
                         end
                     end

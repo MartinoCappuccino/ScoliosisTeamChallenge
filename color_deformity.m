@@ -1,4 +1,4 @@
-function [colored_pcribcage] = color_deformity(pc_rib_pairs,ribcage)
+function [colored_pcribcage] = color_deformity(pc_rib_pairs, ribcage)
 
     ribcage=bwmorph3(ribcage,'remove');
     pcribcage = voxel_to_pointcloud(ribcage);
