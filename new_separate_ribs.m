@@ -1,14 +1,23 @@
-function [pcindividual_ribs] = seperate_ribs(ribs)
+function [pcindividual_ribs] = separate_ribs(ribs,pcspinecenterline)
     skel = bwskel(logical(ribs), 'MinBranchLength', 40);
-    delete(skel);
+    %delete(skel);
 
     pcindividual_ribs = {};
     
-    while ~isempty(pcskel.Location)
-        [rows, cols, slices] = ind2sub(skel, find(skel));
-        index = randi(length(rows));
+    while sum(skel,'all')~=0
+        %temporary padding
+        skel(1:end,1:end,1)=0;
+        skel(1:end,1,1:end)=0;
+        skel(1,1:end,1:end,:)=0;
+        skel(1:end,1:end,end)=0;
+        skel(1:end,end,1:end)=0;
+        skel(end,1:end,1:end,:)=0;
+        %temporary padding
+
+        [rows, cols, slices] = ind2sub(size(skel), find(skel));
+        index = randi(length(rows),1);
         starting_point = [rows(index), cols(index), slices(index)];
-        
+
         side_points = [];
         for x =-1:1 
             for y=-1:1
@@ -20,12 +29,12 @@ function [pcindividual_ribs] = seperate_ribs(ribs)
             end
         end
         
-        if length(side_points) > 2
+        if size(side_points,1) > 3            %two sidepoints and the startpoint
             continue
         end
 
         %remove start and sidepoints
-        for i = 1:length(side_points)
+        for i = 1:size(side_points,1)
             skel(side_points(i,1), side_points(i,2), side_points(i,3)) = 0;
         end
         skel(starting_point(1), starting_point(2), starting_point(3)) = 0;
@@ -33,10 +42,10 @@ function [pcindividual_ribs] = seperate_ribs(ribs)
 
         %add it to a new line
         line = pointCloud(starting_point);
-        for i =1:length(side_points)
+        for i =1:size(side_points,1)
             EndOfBranch = false;
-            line = pcmerge(line, pointCloud(side_points(i)));
-            curr_point = side_points(i);
+            line = pcmerge(line, pointCloud(side_points(i,:)),1);
+            curr_point = side_points(i,:);
             while EndOfBranch~=true
                 next_points = [];
                 for x =-1:1 
@@ -49,12 +58,12 @@ function [pcindividual_ribs] = seperate_ribs(ribs)
                     end
                 end
                 
-                if length(next_points) > 1                                      %Branchpoint
+                if size(next_points,1) > 1                                      %Branchpoint
                     EndOfBranch=true;
                 elseif isempty(next_points)                                     %end of line in this direction 
                     EndOfBranch=true;                   
                 else                                                            %continue as line has only one next point
-                    line = pcmerge(line, pointCloud(next_points(1,:)));
+                    line = pcmerge(line, pointCloud(next_points(1,:)),1);
                     skel(next_points(1,1), next_points(1,2), next_points(1,3)) = 0;
                     curr_point = next_points(1,:);
                     if length(line.Location)>5
@@ -103,4 +112,4 @@ function [pcindividual_ribs] = seperate_ribs(ribs)
 %         pcindividual_ribs{i} = color_pointcloud(pcindividual_ribs{i}, colors(i,:, :));
     end
 
-end
+%end
