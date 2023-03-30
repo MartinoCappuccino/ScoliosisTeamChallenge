@@ -21,10 +21,11 @@ function [colored_pcribcage] = color_deformity(pc_rib_pairs, ribcage)
         %registration
         registered=registrate_ribs(pc1,pc2);
         %calulating the differences
-        [corr_pts_1,corr_pts_2] = get_corresp_pts(pc1,registered, 20);
-        [distance, derivative] = distances(corr_pts_1,corr_pts_2);
+        amount_pts=round(min([size(pc1,1),size(registered,1),size(pc1,1)])/10);
+        [corr_pts_1,corr_pts_2] = get_corresp_pts(pc1,registered, amount_pts);
+        [distance, derivative] = get_distances(corr_pts_1,corr_pts_2);
         %coloring the corresponding points
-        [corr_pts_1,corr_pts_2] = get_corresp_pts(pc1,pc2, 20);
+        [corr_pts_1,corr_pts_2] = get_corresp_pts(pc1,pc2, amount_pts);
         colored_r=color_corresp_pts(distance,corr_pts_1);
         colored_l=color_corresp_pts(distance,corr_pts_2);
     

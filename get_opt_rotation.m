@@ -15,7 +15,7 @@ function metric = get_opt_rotation(line_fixed,line_moving,angle_vector)
     for j=1:size(line_moving,1)
         line_moving(j,:)=line_moving(j,:)+trans_vec;
     end
-    
-    [a,b]=get_corresp_pts(line_fixed,line_moving,20);
+    amount_pts=round(min([size(line_moving,1),size(line_fixed,1)])/10);
+    [a,b]=get_corresp_pts(line_fixed,line_moving,amount_pts);
     metric=get_acc_distance(a,b);
 end
