@@ -1,4 +1,6 @@
 function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_kernel, lower_threshold, upper_threshold, colorribcage)
+    %#codegen
+    
     image=niftiread(file_name);
 
     image=imresize3(image, [512, 512, 437]);

@@ -63,7 +63,6 @@ hold off;
 figure; hold on;
 pcshow(pcspine);
 pcshow(pcdeformation_ribs);
-colorbar;
 hold off;
 
 figure; hold on;
@@ -72,4 +71,16 @@ for i=1:length(pcdeformation_ribs_centerlines)
     pcshow(pcdeformation_ribs_centerlines{i, 1});
     pcshow(pcdeformation_ribs_centerlines{i, 2});
 end
+hold off;
+
+%%
+figure; hold on;
+pcshow(pcspine);
+pcdeformation_ribs_centerlinesplot = pointCloud([0 0 0], 'Color', [0 0 0]);
+for i=1:length(pcdeformation_ribs_centerlines)
+    pcdeformation_ribs_centerlinesplot = pcmerge(pcdeformation_ribs_centerlinesplot, pcdeformation_ribs_centerlines{i, 1}, 1);
+    pcdeformation_ribs_centerlinesplot = pcmerge(pcdeformation_ribs_centerlinesplot, pcdeformation_ribs_centerlines{i, 2}, 1);
+end
+pcdeformation_ribs_centerlinesplot = pointCloud(pcdeformation_ribs_centerlinesplot.Location(1:end, :), 'Color', pcdeformation_ribs_centerlinesplot.Color(1:end, :));
+pcshow(pcdeformation_ribs_centerlinesplot)
 hold off;
