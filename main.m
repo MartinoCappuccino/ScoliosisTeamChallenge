@@ -2,16 +2,17 @@ clear all;
 close all;
 
 %% Variables
-colorribcage = [128, 128, 128];
-colorspine = [64, 64, 64];
+colorribcage = [230, 230, 230];
+colorspine = [200, 200, 200];
 colorribs = [0, 255, 0];
 
 %% Read image
-[pcribcage, ribcage]=get_ribcage('../data/Scoliose/3preop.nii', 5, 3, 1300, colorribcage);
+[pcribcage, ribcage]=get_ribcage('../data/Scoliose/3preop.nii', 5, 3, 1300, 1600, colorribcage);
 
 %%
-figure;
+figure; hold on;
 pcshow(pcribcage);
+hold off;
 
 %% Extract spine and ribs
 [pcspinecenterline, pcspine, pcribs, ribs]=seperate_ribcage(ribcage, colorspine, colorribs);

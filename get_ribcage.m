@@ -1,4 +1,4 @@
-function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_kernel, threshold, colorribcage)
+function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_kernel, lower_threshold, upper_threshold, colorribcage)
     image=niftiread(file_name);
 
     image=imresize3(image, [512, 512, 437]);
@@ -8,7 +8,8 @@ function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_ker
     image=squeeze(image);
 
     %thresholing whole imageS
-    thresholded=image>threshold & image<1600;
+    thresholded=image>lower_threshold & image<upper_threshold;
+    
     
     %close big holes
     thresholded=imclose(thresholded,strel('sphere', closing_kernel));
