@@ -1,5 +1,6 @@
-function [pcrib_pairs, pcrib_pairs_centerlines] = find_rib_pairs(pcindividual_ribs, pcspinecenterline, pcribs)
+function [pcrib_pairs, pcrib_pairs_centerlines] = find_rib_pairs(pcindividual_ribs, pcspinecenterline, pcri)
     pcrib_pairs_centerlines = {};
+    pcrib_pairs = {};
     
     split = {};
     for i = 1:length(pcindividual_ribs)

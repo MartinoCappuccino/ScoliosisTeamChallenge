@@ -10,6 +10,7 @@ function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_ker
     %thresholing whole imageS
     thresholded=image>threshold & image<1600;
     
+    
     %close big holes
     thresholded=imclose(thresholded,strel('sphere', closing_kernel));
 

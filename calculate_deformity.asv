@@ -1,0 +1,28 @@
+function [colored_pcribs] = calculate_deformity(pc_rib_pairs, pcribs)
+    
+    for i=1:length(pc_rib_pairs)   
+        pc1=pc_rib_pairs{i,1}.Location;
+        pc2=pc_rib_pairs{i,2}.Location;
+
+        pc1length=get_curve_length(pc1);
+        pc2length=get_curve_length(pc2);
+
+
+        %registration
+        pc2registered=registrate_ribs(pc1,pc2);
+        
+        %Calculate distances
+        [distance, derivative] = get_distances(pc1,pc2registered);
+        
+        %coloring the corresponding points
+        if abs(pc1length-pc2length) / pc1length * 100 > 10
+            pc_rib_pairs{i, 1}.Color=ones(pc1.Count, 3).*255;
+            pc_rib_pairs{i, 2}.Color=ones(pc2.Count, 3).*255;
+        else
+            pc_rib_pairs{i, 1}=color_corresp_pts(abs(derivative),pc1);
+            pc_rib_pairs{i, 2}=color_corresp_pts(abs(derivative),pc2);
+        end
+    end
+    
+    colored_pcribs = color_ribs(pcribs, pc_rib_pairs);
+end

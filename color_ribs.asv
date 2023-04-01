@@ -1,0 +1,26 @@
+function [colored_ribs]=color_ribs(pcribs, pcindividual_ribs_centerlines)    
+    pcall_individidual_ribs_centerlines = pointCloud([0 0 0], 'Color', [255 255 255]);
+    for i=1:length(pcindividual_ribs_centerlines)
+        if size(pcindividual_ribs_centerlines, 2) == 2
+            pcmerge(pcall_individual_ribs_centerlines, pcindividual_ribs_centerlines{i, 1}, 1);
+            pcmerge(pcall_individual_ribs_centerlines, pcindividual_ribs_centerlines{i, 2}, 1);
+        else
+            pcmerge(pc_all_individual_ribs_centerlines, pcindividual_ribs_centerlines{i}, 1);
+        end
+    end
+    pc_all_individidual_ribs_centerlines = pointCloud(pc_all_individidual_ribs_centerlines.Location(1:end, :), 'Color', pc_all_individidual_ribs_centerlines.Color(1:end, :));
+
+    [indices, dists] = dsearchn(pc_all_individidual_ribs_centerlines.Location, pcribs.Location);
+    for i = 1:length(indices)
+        if dists(i) < 70
+            pcribs.Color(i,:) = pc_all_individual_ribs_centerlines.Color(i, :);
+        else
+            pcribs.Color(i, :) = [255, 255, 255];
+        end
+    end
+
+    colors = pcribs.Color;
+    isNotWhite = any(colors~=[255,255,255]);
+
+    colored_ribs = pointCloud(pcribs.Location(isNotWhite, :), 'Color', pcribs.Color(isNotWhite, :));
+end

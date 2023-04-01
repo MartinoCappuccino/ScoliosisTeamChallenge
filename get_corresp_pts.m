@@ -9,13 +9,8 @@ function [pts_1,pts_2] = get_corresp_pts(rib_line1,rib_line2, N_pts)
     % returns two sets of corresponding points
     
     % check if requirements are met
-    curve_length1=curve_length(rib_line1);
-    curve_length2=curve_length(rib_line2);
-    
-    if min(curve_length2,curve_length1)/10<N_pts
-        error('too many corresponding points asked for a too short rib');
-    end
-    
+    curve_length1=get_curve_length(rib_line1);
+    curve_length2=get_curve_length(rib_line2);
     
     % initializing output
     pts_1=zeros(N_pts,3);
@@ -69,27 +64,6 @@ function [pts_1,pts_2] = get_corresp_pts(rib_line1,rib_line2, N_pts)
         end
     end
     
-    end
-    
-    
-    function [length] = curve_length(rib_line)
-    % CURVE_LENGHT calculates the curve length of a set of points from
-    % a rib (centerline)
-    % param rib_line: set of points of a rib
-    % returns rib's lenght
-    
-    % take the size of the rib's set of points 
-    steps=size(rib_line,1);
-    
-    length=0;
-    
-    for i=2:steps
-        % calculate eucledian distance between adjacent set of points
-        euclidean_dist=sqrt(sum((rib_line(i,:)-rib_line(i-1,:)) .^ 2));
-        % sum total lenght
-        length=length+euclidean_dist;
-    end
-
 end
 
 

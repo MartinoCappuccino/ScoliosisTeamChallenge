@@ -4,25 +4,29 @@ function [pcspinecenterline, pcspine, pcribs, ribs] = seperate_ribcage(ribcage, 
     zs = [];
     
     slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,int16(size(ribcage, 3)/2)))), strel('disk', 5)), 'holes'); 
-    [J, rect] = imcrop(slice);
-    close all;
-   
+    [J, rect]
+
+
     for z = 1:size(ribcage, 3)
        slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,z))), strel('disk', 5)), 'holes'); 
        
-       slice = imcrop(slice, rect);
-
+%        targetSize=[70 50 300 300];
+%        
+%        slice= imcrop(slice,targetSize);
+%        imshow(slice,[])
        CC=bwconncomp(slice);
        ROI=zeros(size(slice));
        numPixels = cellfun(@numel,CC.PixelIdxList);
        [biggest,idx] = max(numPixels);
-
+       %Cropping causes a shift in coordinates so correct for this 
+%        shiftx=(size(ribcage,1)-size(slice,1))/2; 
+%        shifty=(size(ribcage,1)-size(slice,2))/2; 
        if CC.NumObjects~=0
            ROI(CC.PixelIdxList{idx}) = 1;
        
            stat = regionprops(logical(ROI),'centroid');
-           xs = [xs stat(1).Centroid(2)+rect(2)];
-           ys = [ys stat(1).Centroid(1)+rect(1)];
+           xs = [xs stat(1).Centroid(2)+shiftx];
+           ys = [ys stat(1).Centroid(1)+shifty];
            zs = [zs z];
        end
     end
