@@ -11,12 +11,12 @@ function [colored_pcribcage] = color_deformity(pc_rib_pairs, ribcage)
         pc1=pc_rib_pairs{i,1}.Location;
         pc2=pc_rib_pairs{i,2}.Location;
 
-        if pc1(1,3)<pc1(end,3)
-            pc1=flip(pc1,1);
-        end
-        if pc2(1,3)<pc2(end,3)
-            pc2=flip(pc2,1);
-        end
+%         if pc1(1,3)<pc1(end,3)
+%             pc1=flip(pc1,1);
+%         end
+%         if pc2(1,3)<pc2(end,3)
+%             pc2=flip(pc2,1);
+%         end
     
         %registration
         registered=registrate_ribs(pc1,pc2);

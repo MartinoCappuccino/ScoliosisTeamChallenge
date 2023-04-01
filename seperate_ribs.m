@@ -75,7 +75,6 @@ function [pcindividual_ribs] = seperate_ribs(ribs, pcspinecenterline)
                         vec1=line(end-length4change,:)-line(end-length4change/2,:);
                         vec2=line(end-length4change/2,:)-line(end,:);
                         if abs(get_angle(vec1,vec2)) > 60
-                            get_angle(vec1,vec2)
                             EndOfBranch=true;                                   %end is true as large orientation change happened
                             line=line(1:end-length4change/2,:);     %remove the points after the big change (maybe add them again to skel)
                         end
@@ -85,22 +84,28 @@ function [pcindividual_ribs] = seperate_ribs(ribs, pcspinecenterline)
             %if i==1
                 line = flip(line,1);
             %end
-    
+            
             startpoint = line(1,:);
             endpoint = line(end,:);
+
             %if (abs(endpoint(3)-startpoint(3))) < (abs(endpoint(1)-startpoint(1))) ||  (abs(endpoint(3)-startpoint(3))) < (abs(endpoint(2)-startpoint(2)))
             if size(line,1) > 30 && i==size(side_points,1)
+                %make sure the orientation is correct
+                if line(1,3)<line(end,3)
+                    %line=flip(line,1);
+                end
+
                 pcindividual_ribs{end+1} = pointCloud(line);
             end
             %end
         end
     end
-    
+
+
     colors = get_colors(length(pcindividual_ribs));
     to_remove=[];
-    merged=[];
+
     for i=1:length(pcindividual_ribs)
-    
         %stitching ribs that are cut in multiple
         for j=1:length(pcindividual_ribs)
             if norm(pcindividual_ribs{i}.Location(end,:)-pcindividual_ribs{j}.Location(1,:))<20
@@ -111,12 +116,18 @@ function [pcindividual_ribs] = seperate_ribs(ribs, pcspinecenterline)
             end
         end
     end
-    for i=1:length(to_remove)
-        [remove,ind]=max(to_remove);
-        pcindividual_ribs(remove)=[];
-        to_remove(ind)=[];
-    end
     
+    %remove lines which do not start close to the spine
+    for i=1:length(pcindividual_ribs)
+        if (min(abs(pcindividual_ribs{i}.Location(1,1)-pcspinecenterline.XLimits)))>150
+            to_remove(end+1)=i;
+        end
+    end
+    %remove double entries from to_remove
+    to_remove=unique(to_remove);
+    pcindividual_ribs(to_remove)=[];
+
+
     for i=1:length(pcindividual_ribs)
         %
         %         [index,dist] = dsearchn(pcindividual_ribs{i}.Location,pcspinecenterline.Location);
