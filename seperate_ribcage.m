@@ -45,7 +45,7 @@ function [pcspinecenterline, pcspine, pcribs, ribs] = seperate_ribcage(ribcage, 
     pcspinecenterline = color_pointcloud(pcspinecenterline, colorspine);
     
     radiusx = 100;
-    radiusy = 60;
+    radiusy = 50;
     radiusz = 60;
     [X, Y, Z] = meshgrid(1:size(ribcage,1), 1:size(ribcage,2), 1:size(ribcage,3));
     mask=zeros(size(ribcage));

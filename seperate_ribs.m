@@ -61,20 +61,68 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
                         end
                     end
                 end
-    
-                if size(next_points,1) > 1                                      %Branchpoint
-                    EndOfBranch=true;
+
+                num_steps=4;
+                if size(next_points,1) > 2                                      %Blob or something
+                    EndOfBranch=true;                    
+                elseif size(next_points,1) == 2 && size(line,1)>num_steps
+                    skel(next_points(1,1),next_points(1,2),next_points(1,3))=0;
+                    skel(next_points(2,1),next_points(2,2),next_points(2,3))=0;
+                    for j=1:size(next_points)
+                        %follow the line num_steps more points
+                        branch{j}=next_points(j,:);
+                        for k=1:num_steps
+                            next_branchpoint=[];
+                            for x =-1:1
+                                for y=-1:1
+                                    for z=-1:1
+                                        if skel(branch{j}(k,1)+x, branch{j}(k,2)+y, branch{j}(k,3)+z) == 1
+                                            next_branchpoint(end+1, :) = [branch{j}(k,1)+x, branch{j}(k,2)+y, branch{j}(k,3)+z];
+                                        end
+                                    end
+                                end
+                            end
+                            curr_branchpoint=next_branchpoint;
+                            if size(next_branchpoint, 1)~=1
+                                break
+                            else
+                                skel(curr_branchpoint(1,1),curr_branchpoint(1,2),curr_branchpoint(1,3))=0;
+                                branch{j}(end+1,:)=[next_branchpoint];
+                            end
+                        end
+                    end
+
+                    branch1direction=branch{1}(1,:)-branch{1}(end,:);
+                    branch2direction=branch{2}(1,:)-branch{2}(end,:);
+                    linedirection=line(end-num_steps,:)-line(end,:);
+
+                    if size(branch{1},1)<num_steps          %if one branch is shorter than 5 points add the other branch
+                        line=[line;branch{2}];
+                    elseif size(branch{2},1)<num_steps
+                        line=[line;branch{1}];
+                    elseif abs(min([get_angle(branch1direction,linedirection) get_angle(branch2direction,linedirection)]))<60
+                        if get_angle(branch1direction,linedirection)<get_angle(branch2direction,linedirection)
+                            line=[line;branch{1}];
+                        else
+                            line=[line;branch{2}];
+                        end
+                    else
+                        EndOfBranch=true;     %end of branch of both directions do not correspond to where we came from
+                    end
+                elseif size(next_points,1) == 2
+                    EndOfBranch=true; %neglect very short part in front of a branchpoint
+
                 elseif size(next_points, 1)==0                                    %end of line in this direction
                     EndOfBranch=true;
                 else                                                            %continue as line has only one next point
                     curr_point = next_points(1,:);
                     skel(next_points(1,1), next_points(1,2), next_points(1,3)) = 0;
                     line = [line; next_points(1,:)];
-                    length4change=10;
+                    length4change=20;
                     if size(line,1)>length4change
                         vec1=line(end-length4change,:)-line(end-length4change/2,:);
                         vec2=line(end-length4change/2,:)-line(end,:);
-                        if abs(get_angle(vec1,vec2)) > 60
+                        if abs(get_angle(vec1,vec2)) > 45
                             EndOfBranch=true;                                   %end is true as large orientation change happened
                             line=line(1:end-length4change/2,:);     %remove the points after the big change (maybe add them again to skel)
                         end
@@ -104,20 +152,30 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
     to_remove=[];
 
     for i=1:length(pcindividual_ribs_centerlines)
-        %stitching ribs that are cut in multiple
+        %stitching ribs that are cut in multiple bch checking direction and
+        %distance
         for j=1:length(pcindividual_ribs_centerlines)
-            if norm(pcindividual_ribs_centerlines{i}.Location(end,:)-pcindividual_ribs_centerlines{j}.Location(1,:))<20
-                pcindividual_ribs_centerlines{i}=pcmerge(pcindividual_ribs_centerlines{i},pcindividual_ribs_centerlines{j},1);
-                if i~=j
-                    to_remove(end+1)=j;
+            if norm(pcindividual_ribs_centerlines{i}.Location(end,:)-pcindividual_ribs_centerlines{j}.Location(1,:))<30
+                direction1=pcindividual_ribs_centerlines{i}.Location(end,:)-pcindividual_ribs_centerlines{i}.Location(end-5,:);
+                direction2=pcindividual_ribs_centerlines{j}.Location(5,:)-pcindividual_ribs_centerlines{j}.Location(1,:);
+                if abs(get_angle(direction1,direction2))<60
+                    pcindividual_ribs_centerlines{i}=pcmerge(pcindividual_ribs_centerlines{i},pcindividual_ribs_centerlines{j},1);
+                    if i~=j
+                        to_remove(end+1)=j;
+                    end
                 end
             end
         end
     end
     
-    %remove lines which do not start close to the spine
+    %remove lines which do not start close to the spine or are short
     for i=1:length(pcindividual_ribs_centerlines)
-        if (min(abs(pcindividual_ribs_centerlines{i}.Location(1,1)-pcspinecenterline.XLimits)))>150
+        closest_spinepoint=dsearchn(pcspinecenterline.Location,pcindividual_ribs_centerlines{i}.Location(1,:));
+        closest_spinepoint=pcspinecenterline.Location(closest_spinepoint,:);
+        if (min(abs(pcindividual_ribs_centerlines{i}.Location(1,1)-closest_spinepoint(1))))>120||(min(abs(pcindividual_ribs_centerlines{i}.Location(1,2)-closest_spinepoint(2))))>150
+            to_remove(end+1)=i;
+        end
+        if pcindividual_ribs_centerlines{i}.Count<40
             to_remove(end+1)=i;
         end
     end
