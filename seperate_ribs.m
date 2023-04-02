@@ -154,25 +154,33 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
     for i=1:length(pcindividual_ribs_centerlines)
         %stitching ribs that are cut in multiple bch checking direction and
         %distance
+        dist_lines=[];
         for j=1:length(pcindividual_ribs_centerlines)
-            if norm(pcindividual_ribs_centerlines{i}.Location(end,:)-pcindividual_ribs_centerlines{j}.Location(1,:))<30
-                direction1=pcindividual_ribs_centerlines{i}.Location(end,:)-pcindividual_ribs_centerlines{i}.Location(end-5,:);
-                direction2=pcindividual_ribs_centerlines{j}.Location(5,:)-pcindividual_ribs_centerlines{j}.Location(1,:);
-                if abs(get_angle(direction1,direction2))<60
-                    pcindividual_ribs_centerlines{i}=pcmerge(pcindividual_ribs_centerlines{i},pcindividual_ribs_centerlines{j},1);
-                    if i~=j
-                        to_remove(end+1)=j;
-                    end
+            %find closest startpoint of another rib
+            dist_lines(end+1,:)=[norm(pcindividual_ribs_centerlines{i}.Location(end,:)-pcindividual_ribs_centerlines{j}.Location(1,:));i;j];
+        end
+        [min_dist,ind]=min(dist_lines(:,1));
+        if min_dist<30
+            direction1=pcindividual_ribs_centerlines{dist_lines(ind,2)}.Location(end,:)-pcindividual_ribs_centerlines{dist_lines(ind,2)}.Location(end-5,:);
+            direction2=pcindividual_ribs_centerlines{dist_lines(ind,3)}.Location(5,:)-pcindividual_ribs_centerlines{dist_lines(ind,3)}.Location(1,:);
+            if abs(get_angle(direction1,direction2))<60
+                pcindividual_ribs_centerlines{dist_lines(ind,2)}=pcmerge(pcindividual_ribs_centerlines{dist_lines(ind,2)},pcindividual_ribs_centerlines{dist_lines(ind,3)},1);
+                if dist_lines(ind,2)~=dist_lines(ind,3)
+                    to_remove(end+1)=dist_lines(ind,3);
                 end
             end
         end
+
     end
     
     %remove lines which do not start close to the spine or are short
     for i=1:length(pcindividual_ribs_centerlines)
         closest_spinepoint=dsearchn(pcspinecenterline.Location,pcindividual_ribs_centerlines{i}.Location(1,:));
         closest_spinepoint=pcspinecenterline.Location(closest_spinepoint,:);
-        if (min(abs(pcindividual_ribs_centerlines{i}.Location(1,1)-closest_spinepoint(1))))>120||(min(abs(pcindividual_ribs_centerlines{i}.Location(1,2)-closest_spinepoint(2))))>150
+        x_toofar=min(abs(pcindividual_ribs_centerlines{i}.Location(1,1)-closest_spinepoint(1)))>120;        %probably scepula
+        %x_tooclose=min(abs(pcindividual_ribs_centerlines{i}.Location(1,1)-closest_spinepoint(1)))<40;       %probably sternum
+        y_toofar=min(abs(pcindividual_ribs_centerlines{i}.Location(1,2)-closest_spinepoint(2)))>150;        %probably colar bone
+        if x_toofar||y_toofar%||x_tooclose
             to_remove(end+1)=i;
         end
         if pcindividual_ribs_centerlines{i}.Count<40

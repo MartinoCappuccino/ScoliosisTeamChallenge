@@ -5,6 +5,8 @@ close all;
 colorribcage = [255, 255, 255];
 colorspine = [255, 255, 255];
 colorribs = [0, 255, 0];
+colorMap = [[linspace(0,1,256)';ones(256, 1)], [ones(256, 1);linspace(1,0,256)'],zeros(512,1)];
+colormap(colorMap)
 
 %% Read image
 [pcribcage, ribcage]=get_ribcage('../data/NonScoliotic/Control1a.nii', 5, 3, 1300, 1600, colorribcage);
@@ -63,6 +65,7 @@ hold off;
 figure; hold on;
 pcshow(pcspine);
 pcshow(pcdeformation_ribs);
+colorbar;
 hold off;
 
 figure; hold on;
@@ -71,6 +74,7 @@ for i=1:length(pcdeformation_ribs_centerlines)
     pcshow(pcdeformation_ribs_centerlines{i, 1});
     pcshow(pcdeformation_ribs_centerlines{i, 2});
 end
+colorbar;
 hold off;
 
 %%
