@@ -5,12 +5,16 @@ close all;
 colorribcage = [255, 255, 255];
 colorspine = [255, 255, 255];
 colorribs = [0, 255, 0];
-mean_threshold = 18; %voxels
-std_threshold = 12;  %voxels
+mean_threshold_distance = 30.6; %voxels
+std_threshold_distance = 21.7;  %voxels
+mean_threshold_derivative = 0.29; %voxels
+std_threshold_derivative = 0.59;  %voxels
+mean_threshold_derivative2 = 0; %voxels
+std_threshold_derivative2 = 0;  %voxels
 colorMap = [[linspace(0,1,256)';ones(256, 1)], [ones(256, 1);linspace(1,0,256)'],zeros(512,1)];
 
 %% Read image
-[pcribcage, ribcage]=get_ribcage('../data/NonScoliotic/Control1a.nii', 5, 3, 1300, 1600, colorribcage);
+[pcribcage, ribcage]=get_ribcage('../data/Scoliose/1preop.nii', 5, 3, 1300, 1600, colorribcage);
 
 %%
 figure; hold on;
@@ -60,49 +64,73 @@ for i=1:length(pcrib_pairs_centerlines)
 end
 hold off;
 %% Registration of ribs and calculation of deformity
-[pcdeformation_ribs, pcdeformation_ribs_centerlines] = calculate_deformity(pcrib_pairs_centerlines, pcribs, "distance", mean_threshold, std_threshold);
+[pcdeformation_ribs_distance, pcdeformation_ribs_centerlines_distance] = calculate_deformity(pcrib_pairs_centerlines, pcribs, "distance", mean_threshold_distance, std_threshold_distance);
 
 %%
 f = figure; hold on;
 pcshow(pcspine);
-pcshow(pcdeformation_ribs);
+pcshow(pcdeformation_ribs_distance);
 f.Colormap = colorMap;
-colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative, mean_threshold+2*std_threshold, 9), 'Parent', f);
-caxis([mean_threshold, mean_threshold_derivative+2*std_threshold]);
+colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_distance, mean_threshold_distance+2*std_threshold_distance, 9), 'Parent', f);
+caxis([mean_threshold_distance, mean_threshold_distance+2*std_threshold_distance]);
 hold off;
 
 %%
 figure; hold on;
 pcshow(pcspine);
-for i=1:length(pcdeformation_ribs_centerlines)
-    pcshow(pcdeformation_ribs_centerlines{i, 1});
-    pcshow(pcdeformation_ribs_centerlines{i, 2});
+for i=1:length(pcdeformation_ribs_centerlines_distance)
+    pcshow(pcdeformation_ribs_centerlines_distance{i, 1});
+    pcshow(pcdeformation_ribs_centerlines_distance{i, 2});
 end
 f.Colormap = colorMap;
-colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative, mean_threshold+2*std_threshold, 9), 'Parent', f);
-caxis([mean_threshold, mean_threshold_derivative+2*std_threshold]);
+colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_distance, mean_threshold_distance+2*std_threshold_distance, 9), 'Parent', f);
+caxis([mean_threshold_distance, mean_threshold_distance+2*std_threshold_distance]);
 hold off;
 
-%%
-[pcdeformation_ribs, pcdeformation_ribs_centerlines] = calculate_deformity(pcrib_pairs_centerlines, pcribs, "derivative2", mean_threshold, std_threshold);
+%% Registration of ribs and calculation of deformity
+[pcdeformation_ribs_derivative, pcdeformation_ribs_centerlines_derivative] = calculate_deformity(pcrib_pairs_centerlines, pcribs, "derivative", mean_threshold_derivative, std_threshold_derivative);
 
 %%
 f = figure; hold on;
 pcshow(pcspine);
-pcshow(pcdeformation_ribs);
+pcshow(pcdeformation_ribs_derivative);
 f.Colormap = colorMap;
-colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative, mean_threshold+2*std_threshold, 9), 'Parent', f);
-caxis([mean_threshold, mean_threshold_derivative+2*std_threshold]);
+colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative, mean_threshold_derivative+2*std_threshold_derivative, 9), 'Parent', f);
+caxis([mean_threshold_derivative, mean_threshold_derivative+2*std_threshold_derivative]);
 hold off;
 
 %%
 figure; hold on;
 pcshow(pcspine);
-for i=1:length(pcdeformation_ribs_centerlines)
-    pcshow(pcdeformation_ribs_centerlines{i, 1});
-    pcshow(pcdeformation_ribs_centerlines{i, 2});
+for i=1:length(pcdeformation_ribs_centerlines_derivative)
+    pcshow(pcdeformation_ribs_centerlines_derivative{i, 1});
+    pcshow(pcdeformation_ribs_centerlines_derivative{i, 2});
 end
 f.Colormap = colorMap;
-colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative, mean_threshold+2*std_threshold, 9), 'Parent', f);
-caxis([mean_threshold, mean_threshold_derivative+2*std_threshold]);
+colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative, mean_threshold_derivative+2*std_threshold_derivative, 9), 'Parent', f);
+caxis([mean_threshold_derivative, mean_threshold_derivative+2*std_threshold_derivative]);
+hold off;
+
+%% Registration of ribs and calculation of deformity
+[pcdeformation_ribs_derivative2, pcdeformation_ribs_centerlines_derivative2] = calculate_deformity(pcrib_pairs_centerlines, pcribs, "derivative2", mean_threshold_derivative2, std_threshold_derivative2);
+
+%%
+f = figure; hold on;
+pcshow(pcspine);
+pcshow(pcdeformation_ribs_derivative2);
+f.Colormap = colorMap;
+colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative2, mean_threshold_derivative2+2*std_threshold_derivative2, 9), 'Parent', f);
+caxis([mean_threshold_derivative2, mean_threshold_derivative2+2*std_threshold_derivative2]);
+hold off;
+
+%%
+figure; hold on;
+pcshow(pcspine);
+for i=1:length(pcdeformation_ribs_centerlines_derivative2)
+    pcshow(pcdeformation_ribs_centerlines_derivative2{i, 1});
+    pcshow(pcdeformation_ribs_centerlines_derivative2{i, 2});
+end
+f.Colormap = colorMap;
+colorbar('Color', [1 1 1], 'Box', 'off', 'Ticks', linspace(mean_threshold_derivative2, mean_threshold_derivative2+2*std_threshold_derivative2, 9), 'Parent', f);
+caxis([mean_threshold_derivative2, mean_threshold_derivative2+2*std_threshold_derivative2]);
 hold off;

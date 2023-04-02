@@ -77,4 +77,5 @@ function [pcdeformation_ribs, pcribpairs_centerlines] = calculate_deformity(pc_r
             end
             pcribpairs_centerlines = pc_rib_pairs;
             pcdeformation_ribs = color_ribs(pcribs, pcribpairs_centerlines);
+    end
 end
