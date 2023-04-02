@@ -5,12 +5,12 @@ close all;
 colorribcage = [255, 255, 255];
 colorspine = [255, 255, 255];
 colorribs = [0, 255, 0];
-mean_threshold_distance = 30.6; %voxels
-std_threshold_distance = 21.7;  %voxels
-mean_threshold_derivative = 0.29; %voxels
-std_threshold_derivative = 0.59;  %voxels
-mean_threshold_derivative2 = 0; %voxels
-std_threshold_derivative2 = 0;  %voxels
+mean_threshold_distance = 16.68; %voxels
+std_threshold_distance = 10.85;  %voxels
+mean_threshold_derivative = 0.1315; %voxels
+std_threshold_derivative = 0.1711;  %voxels
+mean_threshold_derivative2 = 0.5628; %voxels
+std_threshold_derivative2 = 0.8792;  %voxels
 colorMap = [[linspace(0,1,256)';ones(256, 1)], [ones(256, 1);linspace(1,0,256)'],zeros(512,1)];
 
 %% Read image
