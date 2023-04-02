@@ -3,10 +3,16 @@ function [pcspinecenterline, pcspine, pcribs, ribs] = seperate_ribcage(ribcage, 
     ys = [];
     zs = [];
     
-    slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,int16(size(ribcage, 3)/2)))), strel('disk', 5)), 'holes'); 
-    [J, rect] = imcrop(slice);
-    close all;
-   
+    slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,int16(size(ribcage, 3)/100)))), strel('disk', 5)), 'holes'); 
+    CC=bwconncomp(slice);
+    ROI=zeros(size(slice));
+    numPixels = cellfun(@numel,CC.PixelIdxList);
+    [biggest,idx] = max(numPixels);
+    ROI(CC.PixelIdxList{idx}) = 1;
+    stat = regionprops(logical(ROI),'centroid');
+    rect = [stat(1).Centroid(1) - 130 stat(1).Centroid(2) - 130 stat(1).Centroid(1) + 130 stat(1).Centroid(2) + 130];
+    slice = imcrop(slice, rect);   
+    
     for z = 1:size(ribcage, 3)
        slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,z))), strel('disk', 5)), 'holes'); 
        

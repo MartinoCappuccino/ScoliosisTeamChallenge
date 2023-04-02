@@ -2,12 +2,12 @@ clear all;
 close all;
 
 %% Variables
-colorribcage = [230, 230, 230];
-colorspine = [200, 200, 200];
+colorribcage = [255, 255, 255];
+colorspine = [255, 255, 255];
 colorribs = [0, 255, 0];
 
 %% Read image
-[pcribcage, ribcage]=get_ribcage('../data/Scoliose/3preop.nii', 5, 3, 1300, 1600, colorribcage);
+[pcribcage, ribcage]=get_ribcage('../data/NonScoliotic/Control1a.nii', 5, 3, 1300, 1600, colorribcage);
 
 %%
 figure; hold on;
