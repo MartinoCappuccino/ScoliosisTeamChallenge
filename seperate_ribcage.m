@@ -10,9 +10,9 @@ function [pcspinecenterline, pcspine, pcribs, ribs] = seperate_ribcage(ribcage, 
     [biggest,idx] = max(numPixels);
     ROI(CC.PixelIdxList{idx}) = 1;
     stat = regionprops(logical(ROI),'centroid');
-    rect = [stat(1).Centroid(1) - 130 stat(1).Centroid(2) - 130 stat(1).Centroid(1) + 130 stat(1).Centroid(2) + 130];
+    rect = [stat(1).Centroid(1) - 150 stat(1).Centroid(2) - 150 stat(1).Centroid(1) + 150 stat(1).Centroid(2) + 150];
     slice = imcrop(slice, rect);   
-    
+
     for z = 1:size(ribcage, 3)
        slice = imfill(imclose(imbinarize(squeeze(ribcage(:,:,z))), strel('disk', 5)), 'holes'); 
        

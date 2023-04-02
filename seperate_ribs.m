@@ -95,12 +95,12 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
                     branch1direction=branch{1}(1,:)-branch{1}(end,:);
                     branch2direction=branch{2}(1,:)-branch{2}(end,:);
                     linedirection=line(end-num_steps,:)-line(end,:);
-
-                    if size(branch{1},1)<num_steps          %if one branch is shorter than 5 points add the other branch
-                        line=[line;branch{2}];
-                    elseif size(branch{2},1)<num_steps
-                        line=[line;branch{1}];
-                    elseif abs(min([get_angle(branch1direction,linedirection) get_angle(branch2direction,linedirection)]))<60
+% 
+%                     if size(branch{1},1)<num_steps          %if one branch is shorter than 5 points add the other branch
+%                         line=[line;branch{2}];
+%                     elseif size(branch{2},1)<num_steps
+%                         line=[line;branch{1}];
+                    if abs(min([get_angle(branch1direction,linedirection) get_angle(branch2direction,linedirection)]))<60
                         if get_angle(branch1direction,linedirection)<get_angle(branch2direction,linedirection)
                             line=[line;branch{1}];
                         else
