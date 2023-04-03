@@ -17,9 +17,9 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
         for x =-1:1
             for y=-1:1
                 for z=-1:1
-                    if starting_point(1)+x>1 || starting_point(1)+x < size(skel, 1)
-                        if starting_point(2)+y>1 || starting_point(2)+y < size(skel, 2)
-                            if starting_point(3)+z>1 || starting_point(3)+z < size(skel, 3)
+                    if starting_point(1)+x>1 && starting_point(1)+x < size(skel, 1)
+                        if starting_point(2)+y>1 && starting_point(2)+y < size(skel, 2)
+                            if starting_point(3)+z>1 && starting_point(3)+z < size(skel, 3)
                                 if skel(starting_point(1)+x, starting_point(2)+y, starting_point(3)+z) == 1
                                     side_points(end+1, :) = [starting_point(1)+x, starting_point(2)+y, starting_point(3)+z];
                                 end
@@ -61,9 +61,9 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
                 for x =-1:1
                     for y=-1:1
                         for z=-1:1
-                            if curr_point(1)+x>1 || curr_point(1)+x < size(skel, 1)
-                                if curr_point(2)+y>1 || curr_point(2)+y < size(skel, 2)
-                                    if curr_point(3)+z>1 || curr_point(3)+z < size(skel, 3)
+                            if curr_point(1)+x>1 && curr_point(1)+x < size(skel, 1)
+                                if curr_point(2)+y>1 && curr_point(2)+y < size(skel, 2)
+                                    if curr_point(3)+z>1 && curr_point(3)+z < size(skel, 3)
                                         if skel(curr_point(1)+x, curr_point(2)+y, curr_point(3)+z) == 1
                                             next_points(end+1, :) = [curr_point(1)+x, curr_point(2)+y, curr_point(3)+z];
                                         end
@@ -88,9 +88,9 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
                             for x =-1:1
                                 for y=-1:1
                                     for z=-1:1
-                                        if branch{j}(k,1)+x>1 || branch{j}(k,1)+x < size(skel, 1)
-                                            if branch{j}(k,2)+y>1 || curr_point(2)+y < size(skel, 2)
-                                                if branch{j}(k,3)+z>1 || branch{j}(k,3)+z < size(skel, 3)
+                                        if branch{j}(k,1)+x>1 && branch{j}(k,1)+x < size(skel, 1)
+                                            if branch{j}(k,2)+y>1 && curr_point(2)+y < size(skel, 2)
+                                                if branch{j}(k,3)+z>1 && branch{j}(k,3)+z < size(skel, 3)
                                                     if skel(branch{j}(k,1)+x, branch{j}(k,2)+y, branch{j}(k,3)+z) == 1
                                                         next_branchpoint(end+1, :) = [branch{j}(k,1)+x, branch{j}(k,2)+y, branch{j}(k,3)+z];
                                                     end

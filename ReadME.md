@@ -26,7 +26,7 @@ GUI:
 
 Function get_ribcage:
     Syntax:
-        [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_kernel, lower_threshold, upper_threshold, colorribcage)
+        [pcribcage, ribcage, voxeldimensions, units]=get_ribcage(file_name, closing_kernel, opening_kernel, colorribcage)
 
     Description:
         Takes the nifti file of CT scan and returns the segmented ribcage as a pointcloud object and a 3D-Matrix
@@ -35,13 +35,13 @@ Function get_ribcage:
         file_name: string, path to nifti of CT scan
         closing_kernel: scalar, size of structural element for morphological closing during segmentation
         opening_kernel: scalar, size of structural element for morphological opening during segmentation
-        lower_threshold: scalar, lower threshold for Hounsfield units for segmentation
-        upper_threshold: scalar, upper threshold for Hounsfield units for segmentation (to remove metal objects on postop)
         colorribcage: 1x3 matrix of RGB colors (each element between 0 and 255) in which the ribcage will be displayed
 
     Output-Arguments:
         pcribcage: pointcloud object that contains the segmented ribcage
         ribcage: 3D-Matrix that contains the segmented ribcage
+        voxeldimensions: 1 x 3 array with the lengths of one voxel in x y z directions
+        units: string that specifies the unit (typically mm)
 
 
 
@@ -103,7 +103,7 @@ Function find_rib_pairs:
 
 Function calculate_deformity:
     Syntax:
-        [pcdeformation_ribs, pcribpairs_centerlines] = calculate_deformity(pc_rib_pairs, pcribs, method, mean_threshold, std_threshold)
+        [pcdeformation_ribs, pcribpairs_centerlines] = calculate_deformity(pc_rib_pairs, pcribs, method, mean_threshold, std_threshold,voxeldimensions)
 
     Description:
         N x 2 cells containing corresponding ribs and colors the ribs depending on their deformity
@@ -114,8 +114,9 @@ Function calculate_deformity:
         method: can be chosen between "distance", "derivative" and "derivative2", specifies what the values which are used for coloring the deformity. "distance" uses only the distance between the ribs after registration. "derivative" uses the absolute value first order derivative of the distances between the ribs, the more different the orientation of the ribs, the higher the derivative will be. "derivative2" uses the absolute value of the second order derivative of the distances after registration. A high value will be present if one rib has a fast change in direction (is bent) while the other doesn't.
         mean_threshold: the expected mean (eg. from data from healthy ribs) of the deformity values (distances or derivatives). Everything with a value lower than the mean will be marked as green.  
         std_threshold: the expected standard deviation of the deformatiy values. If one standard deviation is reached structures are marked yellow, with two or more standard deviations structures are marked as red.
+        voxeldimensions: 1x3 array containing lengths of voxels in all three directions
 
-    Outpur-Arguments:
+    Output-Arguments:
         pcdeformation_ribs: colored pointcloud containing the ribs, colors reflect the rib deformation
         pcribpairs_centerlines: N x 2 cell (each row corresponds to one ribpair) of colored pointclouds containing the centerlines of ribs, colors reflect the rib deformation
 
