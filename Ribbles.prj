@@ -13,7 +13,7 @@
     <param.email />
     <param.company />
     <param.summary />
-    <param.description />
+    <param.description>Andrej Shoykhet, Lars Vermeer, Ana San Roman</param.description>
     <param.screenshot>${PROJECT_ROOT}\ribblesLogo.png</param.screenshot>
     <param.guid />
     <param.installpath.string>\Ribbles\</param.installpath.string>
@@ -46,13 +46,14 @@
 	 
  Input Arguments 
 	 -?  print help on how to use the application 
-	 input arguments</param.help.text>
+	 input arguments 
+ Description 
+ 	 Andrej Shoykhet, Lars Vermeer, Ana San Roman</param.help.text>
     <unset>
       <param.version />
       <param.email />
       <param.company />
       <param.summary />
-      <param.description />
       <param.guid />
       <param.installpath.string />
       <param.installpath.combo />
@@ -91,7 +92,6 @@
       <file>${PROJECT_ROOT}\color_pointcloud.m</file>
       <file>${PROJECT_ROOT}\color_ribs.m</file>
       <file>${PROJECT_ROOT}\find_rib_pairs.m</file>
-      <file>${PROJECT_ROOT}\get_acc_distance.m</file>
       <file>${PROJECT_ROOT}\get_angle.m</file>
       <file>${PROJECT_ROOT}\get_colors.m</file>
       <file>${PROJECT_ROOT}\get_curve_length.m</file>

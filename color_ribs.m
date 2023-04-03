@@ -1,6 +1,6 @@
 function [colored_ribs]=color_ribs(pcribs, pcindividual_ribs_centerlines)  
     colored_ribs = pcribs;
-    for i=1:size(pcindividual_ribs_centerlines, 1)
+    for i=1:length(pcindividual_ribs_centerlines)
         if size(pcindividual_ribs_centerlines, 2) == 2
             for k=1:size(pcindividual_ribs_centerlines, 2)
                 xs = pcindividual_ribs_centerlines{i, k}.Location(:,1).';

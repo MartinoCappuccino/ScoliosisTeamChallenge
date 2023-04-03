@@ -14,7 +14,7 @@ std_threshold_derivative2 = 0.0829;  %mm
 colorMap = [[linspace(0,1,256)';ones(256, 1)], [ones(256, 1);linspace(1,0,256)'],zeros(512,1)];
 
 %% Read image
-[pcribcage, ribcage, voxeldimensions, units]=get_ribcage('./Scoliose/1preop.nii', 5, 3, colorribcage);
+[pcribcage, ribcage, voxeldimensions, units]=get_ribcage('../data/Scoliose/1preop.nii', 5, 3, colorribcage);
 
 %%
 figure; hold on;
