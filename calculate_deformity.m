@@ -1,7 +1,8 @@
-function [pcdeformation_ribs, pcribpairs_centerlines, dists, der, der2] = calculate_deformity(pc_rib_pairs, pcribs, method, mean_threshold, std_threshold)
+function [pcdeformation_ribs, pcdeformation_ribs_centerlines, dists, der, der2] = calculate_deformity(pc_rib_pairs, pcribs, method, mean_threshold, std_threshold, voxeldimensions)
     dists = [];
     der=[];
     der2=[];
+    pcdeformation_ribs_centerlines = {};
     for i=1:length(pc_rib_pairs)
         pc1=pc_rib_pairs{i,1}.Location;
         pc2=pc_rib_pairs{i,2}.Location;
@@ -36,25 +37,25 @@ function [pcdeformation_ribs, pcribpairs_centerlines, dists, der, der2] = calcul
         end
         pc2_mirrored=pc2.*[-1 1 1];
         %registration
-        pc2registered=registrate_ribs(pc1,pc2_mirrored);
+
+        pc2registered=registrate_ribs(pc1,pc2_mirrored, voxeldimensions);
     
         %Calculate distances
-        [distance, derivative, derivative2] = get_distances(pc1,pc2registered);
+        [distance, derivative, derivative2] = get_distances(pc1,pc2registered, voxeldimensions);
         switch method
             case "distance"
-                pc_rib_pairs{i, 1}=color_corresp_pts(distance,pc1,mean_threshold,std_threshold);
-                pc_rib_pairs{i, 2}=color_corresp_pts(distance,pc2,mean_threshold,std_threshold);
+                pcdeformation_ribs_centerlines{i, 1}=color_corresp_pts(distance,pc1,mean_threshold,std_threshold);
+                pcdeformation_ribs_centerlines{i, 2}=color_corresp_pts(distance,pc2,mean_threshold,std_threshold);
             case "derivative"
-                pc_rib_pairs{i, 1}=color_corresp_pts(derivative,pc1,mean_threshold,std_threshold);
-                pc_rib_pairs{i, 2}=color_corresp_pts(derivative,pc2,mean_threshold,std_threshold);
+                pcdeformation_ribs_centerlines{i, 1}=color_corresp_pts(derivative,pc1,mean_threshold,std_threshold);
+                pcdeformation_ribs_centerlines{i, 2}=color_corresp_pts(derivative,pc2,mean_threshold,std_threshold);
             case "derivative2"
-                pc_rib_pairs{i, 1}=color_corresp_pts(derivative2,pc1,mean_threshold,std_threshold);
-                pc_rib_pairs{i, 2}=color_corresp_pts(derivative2,pc2,mean_threshold,std_threshold);
+                pcdeformation_ribs_centerlines{i, 1}=color_corresp_pts(derivative2,pc1,mean_threshold,std_threshold);
+                pcdeformation_ribs_centerlines{i, 2}=color_corresp_pts(derivative2,pc2,mean_threshold,std_threshold);
         end
         dists = [dists distance];
         der=[der derivative];
         der2=[der2 derivative2];
-        pcribpairs_centerlines = pc_rib_pairs;
-        pcdeformation_ribs = color_ribs(pcribs, pcribpairs_centerlines);
+        pcdeformation_ribs = color_ribs(pcribs, pcdeformation_ribs_centerlines);
     end
 end

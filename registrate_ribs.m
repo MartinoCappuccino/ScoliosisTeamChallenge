@@ -1,4 +1,4 @@
-function [line_moved] = registrate_ribs(line_fixed,line_moving)
+function [line_moved] = registrate_ribs(line_fixed,line_moving, voxeldimensions)
     %MyRegistration puts one line (rib) with its start point on the other, and rotates
     %the moved one until the distances between correponding points are minimal
     %params: fixed and moving lines as set of points
@@ -12,7 +12,7 @@ function [line_moved] = registrate_ribs(line_fixed,line_moving)
     
     %optimization of the rotation
     init_angle_vector=[0 0];
-    opt_angle_vector=fminsearch(@(angle_vector)get_opt_rotation(line_fixed,line_moving,angle_vector),init_angle_vector);
+    opt_angle_vector=fminsearch(@(angle_vector)get_opt_rotation(line_fixed,line_moving,angle_vector, voxeldimensions),init_angle_vector);
     
     %rotate with optimized angle
     for j=1:size(line_moving,1)                     

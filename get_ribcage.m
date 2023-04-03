@@ -1,17 +1,38 @@
-function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_kernel, lower_threshold, upper_threshold, colorribcage)
-    %#codegen
-    
+function [pcribcage, ribcage, voxeldimensions, unit]=get_ribcage(file_name, closing_kernel, opening_kernel, colorribcage)
+    info = niftiinfo(file_name);
+    voxeldimensions = info.PixelDimensions;
+    unit = info.SpaceUnits;
+
     image=niftiread(file_name);
 
     image=imresize3(image, [512, 512, 437]);
-    image=image(:, :, 1:400);
+    image=image(:, :, 1:(size(image, 3) - round(size(image, 3)/10)));
 
     %needed data operation
     image=squeeze(image);
 
-    %thresholing whole imageS
-    thresholded=image>lower_threshold & image<upper_threshold;
-    
+    %thresholing whole image
+    thresholds=multithresh(image,2);
+    if contains(file_name,"pre")||contains(file_name,"Control")
+        if thresholds(2)<1500 && thresholds(2)> 1100
+            thresholded=image>thresholds(2)*1.05;
+        else
+            thresholds=multithresh(image,3);
+            thresholded=image>thresholds(3)*0.95;
+        end
+    elseif contains(file_name,"post")
+        thresholds=multithresh(image,3);
+        if thresholds(2)>1100
+            thresholded=image>thresholds(2) & image<thresholds(3);
+        else
+            thresholds=multithresh(image,4);
+            thresholded=image>thresholds(3)*0.90 & image<thresholds(4);
+        end
+    else
+        error('wrong input file, filename must contain "pre" or "post"')
+    end
+
+    thresholded=imopen(thresholded,strel('sphere',1));    
     
     %close big holes
     thresholded=imclose(thresholded,strel('sphere', closing_kernel));
@@ -35,7 +56,7 @@ function [pcribcage, ribcage]=get_ribcage(file_name, closing_kernel, opening_ker
     ribcage(CC.PixelIdxList{idx}) = 1;
 
     ribcage = imdilate(ribcage, strel('sphere', 2));
-    
+
     pcribcage = voxel_to_pointcloud(bwmorph3(ribcage,'remove'));
     pcribcage = color_pointcloud(pcribcage, colorribcage);
 end

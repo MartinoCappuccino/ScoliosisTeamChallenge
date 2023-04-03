@@ -1,4 +1,4 @@
-function metric = get_opt_rotation(line_fixed,line_moving,angle_vector)
+function metric = get_opt_rotation(line_fixed,line_moving,angle_vector, voxeldimensions)
     xAngle=angle_vector(1);
     yAngle=angle_vector(2);
     
@@ -17,5 +17,5 @@ function metric = get_opt_rotation(line_fixed,line_moving,angle_vector)
     end
     amount_pts=round(min([size(line_moving,1),size(line_fixed,1)])/10);
    % [a,b]=get_corresp_pts(line_fixed,line_moving,amount_pts);
-    metric=get_acc_distance(line_fixed,line_moving);
+    metric=sum(get_distances(line_fixed,line_moving, voxeldimensions), 'all');
 end
