@@ -15,7 +15,7 @@ function [pcribcage, ribcage, voxeldimensions, unit]=get_ribcage(file_name, clos
     thresholds=multithresh(image,2);
     if contains(file_name,"pre")||contains(file_name,"Control")
         if thresholds(2)<1500 && thresholds(2)> 1100
-            thresholded=image>thresholds(2)*1.05;
+            thresholded=image>thresholds(2)*0.95;
         else
             thresholds=multithresh(image,3);
             thresholded=image>thresholds(3)*0.95;
