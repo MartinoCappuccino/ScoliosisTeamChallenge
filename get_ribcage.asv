@@ -2,11 +2,6 @@ function [pcribcage, ribcage, voxeldimensions, unit]=get_ribcage(file_name, clos
     info = niftiinfo(file_name);
     voxeldimensions = info.PixelDimensions;
     unit = info.SpaceUnits;
-    originalsize = info.ImageSize;
-
-    voxeldimensions(1) = voxeldimensions(1)/(originalsize(1)/512);
-    voxeldimensions(2) = voxeldimensions(2)/(originalsize(2)/512);
-    voxeldimensions(3) = voxeldimensions(3)/(originalsize(3)/437);
 
     image=niftiread(file_name);
     
