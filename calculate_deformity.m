@@ -31,10 +31,10 @@ for i=1:length(pc_rib_pairs)
             z = polyval(pz,ss);
             pc2 = [x(:),y(:),z(:)];
         else
-            pc2=pc2(1:round(pc2length/pc1length*size(pc1,1)),:);
-            xs = pc2(:,1).';
-            ys = pc2(:,2).';
-            zs = pc2(:,3).';
+            pc1=pc1(1:round(pc2length/pc1length*size(pc1,1)),:);
+            xs = pc1(:,1).';
+            ys = pc1(:,2).';
+            zs = pc1(:,3).';
             s = zeros(size(xs));
             for j = 2:length(xs)
                 s(j) = s(j-1) + sqrt((xs(j)-xs(j-1))^2+(ys(j)-ys(j-1))^2+(zs(j)-zs(j-1))^2);
@@ -46,7 +46,7 @@ for i=1:length(pc_rib_pairs)
             x = polyval(px,ss);
             y = polyval(py,ss);
             z = polyval(pz,ss);
-            pc2 = [x(:),y(:),z(:)];
+            pc1 = [x(:),y(:),z(:)];
         end
         pc2_mirrored=pc2.*[-1 1 1];
         %registration
