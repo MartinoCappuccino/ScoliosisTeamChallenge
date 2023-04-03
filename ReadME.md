@@ -11,11 +11,8 @@ GUI:
     in the Matlab command line.
     A window will appear where you can load peoperative and postoperative .nii files from the CT scans.
 
-    Once the scan is loaded the button "Start Algorithm" can be pressed. A new window will appear.
-    The user has to draw a box around the region of the spine with big margins, then right-click on the 
-    image and select "crop image". 
-
-    After that the calculations runs for about one minute.
+    Once the scan is loaded the button "Start Algorithm" can be pressed. 
+    After that the calculations runs for a few minutes.
 
     Once the calculations are finished the ribcage with colored ribs are displayed. To the left of the 
     image checkmarks can be set to visualize centerlines of ribs and spine, the segmentations of ribs 
@@ -103,18 +100,21 @@ Function find_rib_pairs:
 
 Function calculate_deformity:
     Syntax:
-        [pcdeformation_ribs, pcribpairs_centerlines] = calculate_deformity(pc_rib_pairs, pcribs)
+        [pcdeformation_ribs, pcribpairs_centerlines] = calculate_deformity(pc_rib_pairs, pcribs, method, mean_threshold, std_threshold)
 
     Description:
         N x 2 cells containing corresponding ribs and colors the ribs depending on their deformity
     
     Input-Arguments:
-        pcrib_pairs: cell array with N times 2 elements where N is the amount of pairs found, rows represent corresponding ribs, each cell contains the pointcloud of one rib
+        pc_rib_pairs: cell array with N times 2 elements where N is the amount of pairs found, rows represent corresponding ribs, each cell contains the pointcloud of one rib
         pcribs: pointcloud object that contains the ribs without the spine
+        method: can be chosen between "distance", "derivative" and "derivative2", specifies what the values which are used for coloring the deformity. "distance" uses only the distance between the ribs after registration. "derivative" uses the absolute value first order derivative of the distances between the ribs, the more different the orientation of the ribs, the higher the derivative will be. "derivative2" uses the absolute value of the second order derivative of the distances after registration. A high value will be present if one rib has a fast change in direction (is bent) while the other doesn't.
+        mean_threshold: the expected mean (eg. from data from healthy ribs) of the deformity values (distances or derivatives). Everything with a value lower than the mean will be marked as green.  
+        std_threshold: the expected standard deviation of the deformatiy values. If one standard deviation is reached structures are marked yellow, with two or more standard deviations structures are marked as red.
 
     Outpur-Arguments:
         pcdeformation_ribs: colored pointcloud containing the ribs, colors reflect the rib deformation
-        pcindividual_ribs_centerlines:  colored pointcloud containing the centerlines of ribs, colors reflect the rib deformation
+        pcribpairs_centerlines: N x 2 cell (each row corresponds to one ribpair) of colored pointclouds containing the centerlines of ribs, colors reflect the rib deformation
 
 
 
