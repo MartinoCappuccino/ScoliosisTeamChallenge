@@ -21,7 +21,7 @@ for i=1:size(fstruct)
         [pcspinecenterline, pcspine, pcribs, ribs]=seperate_ribcage(ribcage, colorspine, colorribs);
         [pcindividual_ribs, pcindividual_ribs_centerlines]=seperate_ribs(ribs, pcspinecenterline, pcribs);
         [pcrib_pairs, pcrib_pairs_centerlines] = find_rib_pairs(pcindividual_ribs_centerlines, pcspinecenterline, pcribs);
-        [pcdeformation_ribs, pcdeformation_ribs_centerlines,distance,der1,der2] = deformity_threshold(pcrib_pairs_centerlines, pcribs);
+        [pcdeformation_ribs, pcdeformation_ribs_centerlines,distance,der1,der2] = calculate_deformity(pcrib_pairs_centerlines, pcribs);
         
         for j=1
             figure(i)

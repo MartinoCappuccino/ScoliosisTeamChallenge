@@ -129,14 +129,11 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
                     end
                 end
             end
-            %if i==1
-                line = flip(line,1);
-            %end
+            line = flip(line,1);
             
             startpoint = line(1,:);
             endpoint = line(end,:);
 
-            %if (abs(endpoint(3)-startpoint(3))) < (abs(endpoint(1)-startpoint(1))) ||  (abs(endpoint(3)-startpoint(3))) < (abs(endpoint(2)-startpoint(2)))
             if size(line,1) > 30 && i==size(side_points,1)
                 %make sure the orientation is correct
                 if line(1,3)<line(end,3)
@@ -145,7 +142,6 @@ function [pcindividual_ribs, pcindividual_ribs_centerlines] = seperate_ribs(ribs
 
                 pcindividual_ribs_centerlines{end+1} = pointCloud(line);
             end
-            %end
         end
     end
     

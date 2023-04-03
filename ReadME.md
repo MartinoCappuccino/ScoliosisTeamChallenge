@@ -7,8 +7,8 @@ are colored green. The stronger the deformation the more red a rib will be color
 The Ribbles Software consists of five main functions and a Graphical User Interface (GUI):
 
 GUI:
-    To use the GUI all functions have to be added to the Matlab path. To start the GUI type "Ribbles" 
-    in the Matlab command line.
+    To use the GUI all functions have to be added to the Matlab path. To install the "Ribbles" GUI one can use our installer included in this folder. Go through the steps and install the application.
+    Once installed one can start "Ribbles" by searching in the search bar and starting the program.
     A window will appear where you can load peoperative and postoperative .nii files from the CT scans.
 
     Once the scan is loaded the button "Start Algorithm" can be pressed. 
@@ -18,6 +18,9 @@ GUI:
     image checkmarks can be set to visualize centerlines of ribs and spine, the segmentations of ribs 
     and spine and which ribs are recognized as corresponding. (Note: some whole structures will always 
     overlap the centerlines).
+
+    For a quick demo of our application it is advised to use patient 3 and 5 to see the best results. 
+    Further tweaking of the algorithms is needed to improve the results for the different patients.
 
 
 
