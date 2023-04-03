@@ -9,8 +9,8 @@ mean_threshold_distance = 6.66; %mm
 std_threshold_distance = 5.24;  %mm
 mean_threshold_derivative = 0.11; %mm
 std_threshold_derivative = 0.12;  %mm
-mean_threshold_derivative2 = 0.49; %mm
-std_threshold_derivative2 = 0.29;  %mm
+mean_threshold_derivative2 = 0.0141; %mm
+std_threshold_derivative2 = 0.0829;  %mm
 colorMap = [[linspace(0,1,256)';ones(256, 1)], [ones(256, 1);linspace(1,0,256)'],zeros(512,1)];
 
 %% Read image

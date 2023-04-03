@@ -35,9 +35,8 @@ function [dist, dist_change, dist_change2] = get_distances(corr_pts1,corr_pts2, 
 
     % array of distances shift
     dist_change2=zeros(steps,1);
-    step_length=norm(dist_change(1,:)-dist_change(2,:));
     for i=2:steps
         % normed difference from adjacent corresponding point distances
-        dist_change2(i)=abs((dist(i)-dist(i-1)))/step_length;
+        dist_change2(i)=abs((dist_change(i)-dist_change(i-1)))/step_length;
     end
 end
