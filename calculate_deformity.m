@@ -56,6 +56,6 @@ function [pcdeformation_ribs, pcdeformation_ribs_centerlines, dists, der, der2] 
         dists = [dists distance];
         der=[der derivative];
         der2=[der2 derivative2];
-        pcdeformation_ribs = color_ribs(pcribs, pcdeformation_ribs_centerlines);
     end
+    pcdeformation_ribs = color_ribs(pcribs, pcdeformation_ribs_centerlines);
 end

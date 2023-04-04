@@ -38,7 +38,7 @@ function [colored_ribs]=color_ribs(pcribs, pcindividual_ribs_centerlines)
     end
 
     pcall_individual_ribs_centerlines = pointCloud([0 0 0], 'Color', [255 255 255]);
-    for i=1:size(pcindividual_ribs_centerlines, 1)
+    for i=1:length(pcindividual_ribs_centerlines)
         if size(pcindividual_ribs_centerlines, 2) == 2
             pcall_individual_ribs_centerlines = pcmerge(pcall_individual_ribs_centerlines, pcindividual_ribs_centerlines{i, 1}, 1);
             pcall_individual_ribs_centerlines = pcmerge(pcall_individual_ribs_centerlines, pcindividual_ribs_centerlines{i, 2}, 1);
